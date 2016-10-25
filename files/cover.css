@@ -37,6 +37,7 @@ a.#nyePayments {
 
 
 /* Base structure */
+
 .cover {
   text-align: center;
 }
@@ -50,7 +51,6 @@ a.#nyePayments {
   right:0;
   bottom:0;
 }
-
 
 html,
 body {
@@ -76,7 +76,7 @@ body {
 }
 .site-wrapper-inner {
   display: table-cell;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .cover-container {
   margin-right: auto;
@@ -106,7 +106,7 @@ body {
   padding-left: 0;
   font-size: 16px;
   font-weight: bold;
-  color: #fff; /* IE8 proofing */
+  color: #fff; /* IE8 proofing */ 
   color: rgba(255,255,255,.75);
   border-bottom: 2px solid transparent;
 }
@@ -147,15 +147,16 @@ body {
 /* Footer */
 
 .mastfoot {
-  color: #999; /* IE8 proofing */
+  color: #999;  /* IE8 proofing */ 
   color: rgba(50,50,255,.75);
 }
 
 
 /* Affix and center */
 
-@media (min-width: 699px) {
+@media (min-width: 700px) {
   /* Pull out the header and footer */
+  
   .masthead {
     position: fixed;
     top: 0;
@@ -164,22 +165,23 @@ body {
     position: fixed;
     bottom: 0;
   }
-  /* Start the vertical centering */
-  .site-wrapper-inner {
-    vertical-align: middle;
-  }
+  
   /* Handle the widths */
+  
   .masthead,
   .mastfoot,
   .cover-container {
-    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+    width: 100%;  /*Must be percentage or pixels for horizontal alignment*/ 
   }
 }
 
+/*
 @media (min-width: 700px) {
+  
   .masthead,
   .mastfoot,
   .cover-container {
     width: 700px;
   }
 }
+*/
