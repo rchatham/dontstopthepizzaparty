@@ -5,7 +5,7 @@ function navigateForInput(value) {
   if (value === "Pizza Squad") {
     window.location = "./guest-list.html";
   }
-  if (value.toLowercase() === "find pizza") {
+  if (value.toLowerCase() === "find pizza") {
     var win = window.open("https://www.google.com/maps/search/pizza/", "_blank");
     if (win) {
       //Browser has allowed it to be opened
@@ -15,7 +15,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if (value.toLowercase() === "buy pizza") {
+  if (value.toLowerCase() === "buy pizza") {
     var win = window.open("https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=pizza", "_blank");
     if (win) {
       //Browser has allowed it to be opened
@@ -25,7 +25,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if ((value.toLowercase() === "play pizza")||(value.toLowercase() === "deliver pizza")) {
+  if ((value.toLowerCase() === "play pizza")||(value.toLowercase() === "deliver pizza")) {
     var win = window.open("http://www.adultswim.com/games/web/pizza-city", "_blank");
     if (win) {
       //Browser has allowed it to be opened
@@ -35,7 +35,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if (value.toLowercase() === "pizza clothing") {
+  if (value.toLowerCase() === "pizza clothing") {
     var win = window.open("https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=pizza+clothes", "_blank");
     if (win) {
       //Browser has allowed it to be opened
