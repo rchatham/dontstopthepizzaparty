@@ -45,7 +45,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if (value.toLowercase() === "wear pizza") {
+  if (value.toLowerCase() === "wear pizza") {
     var win = window.open("https://www.buzzfeed.com/erinchack/ways-to-wear-pizza-with-pride?utm_term=.doQNKYg2o#.ynkZEbKXO", "_blank");
     if (win) {
       //Browser has allowed it to be opened
@@ -55,7 +55,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if (value.toLowercase() === "pizza shock") {
+  if (value.toLowerCase() === "pizza shock") {
     var win = window.open("http://weartv.com/news/local/man-caught-doing-drugs-behind-navarre-pizza-place", "_blank");
     if (win) {
       //Browser has allowed it to be opened
