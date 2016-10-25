@@ -85,7 +85,7 @@ body {
 
 /* Padding for spacing */
 .inner {
-  padding: 30px;
+  padding: 10px;
 }
 
 
@@ -154,7 +154,7 @@ body {
 
 /* Affix and center */
 
-@media (min-width: 768px) {
+@media (min-width: 699px) {
   /* Pull out the header and footer */
   .masthead {
     position: fixed;
@@ -176,7 +176,7 @@ body {
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 700px) {
   .masthead,
   .mastfoot,
   .cover-container {
