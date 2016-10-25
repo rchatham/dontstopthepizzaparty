@@ -2,7 +2,7 @@ function navigateForInput(value) {
   if ((value === "home")||(value === "Home")) {
     window.location = "./index.html";
   }
-  if (value === "PIZZA-NYE-2016-GL") {
+  if (value === "Champagne") {
     window.location = "./guest-list.html";
   }
   if (value.toLowerCase() === "pizza squad") {
