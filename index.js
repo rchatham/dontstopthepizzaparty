@@ -25,7 +25,7 @@ function navigateForInput(value) {
       alert('Please allow popups for this website');
     }
   }
-  if ((value.toLowerCase() === "play pizza")||(value.toLowercase() === "deliver pizza")) {
+  if ((value.toLowerCase() === "play pizza")||(value.toLowerCase() === "deliver pizza")) {
     var win = window.open("http://www.adultswim.com/games/web/pizza-city", "_blank");
     if (win) {
       //Browser has allowed it to be opened
