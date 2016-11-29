@@ -1,9 +1,12 @@
 function navigateForInput(value) {
-  if ((value === "home")||(value === "Home")) {
-    window.location = "./index.html";
+  if (value.toLowerCase() === "home") {
+    window.location = "/";
+  }
+  if (value.toLowerCase() === "blog") {
+    window.location = "/blog.html";
   }
   if (value === "Champagne") {
-    window.location = "./guest-list.html";
+    window.location = "/guest-list.html";
   }
   if (value.toLowerCase() === "pizza squad") {
     var win = window.open("https://www.facebook.com/groups/dontstopthepizzaparty/", "_blank");
