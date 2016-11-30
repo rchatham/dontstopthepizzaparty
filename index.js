@@ -8,6 +8,9 @@ function navigateForInput(value) {
   if (value === "Champagne") {
     window.location = "/guest-list.html";
   }
+  if (value.toLowerCase() === "photos") {
+    window.location = "/insta.html";
+  }
   if (value.toLowerCase() === "pizza squad") {
     var win = window.open("https://www.facebook.com/groups/dontstopthepizzaparty/", "_blank");
     if (win) {

@@ -52,7 +52,6 @@
   <meta property="article:published_time" content="{{ page.date | date: "%Y-%m-%d" }}">
   {% endif %}
 
-
 <!-- OLD CODE -->
 
   <!-- Bootstrap core CSS -->
@@ -84,12 +83,25 @@
   <div class="container outer">
     <div class="container inner">
       <div clas="container content">
+
+        {% unless page.no_header %}
+        <header>
+          <ul class="navigation">
+            <li><a href="/" title="Home">Home</a></li>
+            <li><a href="/insta.html" title="A selection of recent photography">Photos</a></li>
+            <li><a href="/blog.html" title="The Slice">The Slice</a></li>
+            <li><a href="/archive/" title="Archived articles">Archive</a></li>
+            <!-- <li><a href="/about/"{% if page.url contains "/about/" %}class="active"{% endif %}>About me</a></li> -->
+          </ul>
+        </header>
+        {% endunless %}
+
         {{ content }}
 
         {% unless page.no_footer %}
         <footer>
           <p><a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US" target="_blank"><img src="/files/cc-by.png" class="cc"></a> created by <a href="http://twitter.com/reidamandweep">reidcotta</a> designed by <a href="http://twitter.com/willdjthrill">dj willaa</a>. #pizzasquad</p>
-          <input type="text" name="password" onkeyup="navigateForInput(this.value)" autofocus />
+          <input type="text" name="password" onkeyup="navigateForInput(this.value)" />
         </footer>
         {% endunless %}
       </div>
