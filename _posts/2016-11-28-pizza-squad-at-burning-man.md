@@ -2,6 +2,7 @@
 layout: post
 title: Burnt Pizza
 ---
+
 One day you’re just an average joe, living life and doing what is expected of you, and then somewhere along the line, if you’re lucky enough, along comes pizza…
 <br><br>
 

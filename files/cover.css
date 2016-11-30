@@ -22,7 +22,6 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-overflow-scrolling: touch;
 }
-
 div.breaker { clear: both; }
 .template { display: none; }
 s 
@@ -83,6 +82,7 @@ header {
   height: 100px;
   padding:0 60px 0 50px;
   color: white;
+  text-shadow: 3px 3px 3px rgba(0,0,0,1);
 }
   header h1 {
     display: block;
@@ -147,10 +147,10 @@ header {
 /* container for page styling and content centering */
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
-div.container.outer {
+/*div.container.outer {
   display: table;
   width: 100%;
-  height: 100%; /* For at least Firefox */
+  height: 100%; 
   min-height: 100%;
   margin: auto;
   position: absolute;
@@ -162,34 +162,39 @@ div.container.outer {
 div.container.inner {
   display: table-cell;
   #position: absolute;
-  #top: 50%;
+  #top: 0%;
   vertical-align: middle;
   margin: 0 auto;
 }
 div.container.content {
   #position: relative;
-  #top: -50%;
+  #top: 0%;
   margin: 0 auto;
-}
+}*/
+
+
+/* Padding for spacing */
+div.inner { padding: 10px; }
 
 /* ------------------------------------------------------------------------------------------- */
 /* main content */
 div.content {
-  background:black;
-  color:white;
-  padding:70px 80px;
-  margin-bottom:60px;
+  background: black;
+  color: white;
+  padding: 70px 80px;
+  margin-bottom: 60px;
+  margin-top: 100px
 }
 div.content.full-bleed {
-  padding:0;
+  padding: 0;
 }
 div.content.photo {
   padding: 0;
-  margin:0;
+  margin: 0;
 }
   div.content:not(.sub) h1:first-child {
-    margin-top:0;
-    font-size:300%;
+    margin-top: 0;
+    font-size: 300%;
     font-family: 'Roboto Condensed';
     /*font-size:14px;*/
     /*letter-spacing:0.01em;*/
@@ -199,12 +204,12 @@ div.content.photo {
   
   div.content img, div.content iframe { display: block; max-width: 100%; margin: 1em 0; }
   div.content iframe { border: none; }
-  div.content *[align="right"] { margin:0 0 1em 1.5em; }
-  div.content *[align="left"] { margin:0 1.5em 1em 0; }
+  div.content *[align="right"] { margin: 0 0 1em 1.5em; }
+  div.content *[align="left"] { margin: 0 1.5em 1em 0; }
 
   /*div.post strong { font-weight:inherit; background:#FBF4B1; }*/
-  div.content li { margin-left: 2em; margin-bottom:0.3em; }
-  div.content ul > li { margin-left:1.4em; }
+  div.content li { margin-left: 2em; margin-bottom: 0.3em; }
+  div.content ul > li { margin-left: 1.4em; }
   
   div.content blockquote {
     /*font-family: 'Poly', georgia;*/
@@ -224,7 +229,7 @@ div.content.photo {
 
     background-color: #f2f2f2;
     border-radius: 5px;
-    padding:0.6em 20px 0.6em 10px;
+    padding: 0.6em 20px 0.6em 10px;
 
     /*display: -webkit-flex; display: flex;
     -webkit-flex-direction: row; flex-direction: row;
@@ -286,7 +291,7 @@ div.content.intro {
 
 div.content.inner {
   color: white;
-  margin: 20px;
+  /*margin: 20px;*/
   padding: 20px;
 }
 
@@ -305,7 +310,8 @@ div.posts div.end {
 a.post-excerpt {
   display: block;
   color: inherit;
-  border-bottom: 8px solid #ddd;
+  border-bottom: 2px solid #ddd;
+  text-decoration: none;
 }
   a.post-excerpt div.padded-content {
     display: block;
@@ -374,6 +380,7 @@ a.post-excerpt {
   @media screen and (min-width: 890px) {
     body { width: 900px; }
     header { margin:0; }
+    /*header ul.navigation li:first-child { padding-left: 0px; }*/
     footer { margin:5% 0; }
     a.post-excerpt {
       position:relative;
@@ -451,7 +458,7 @@ div.post {
   /*margin-bottom:-70px;*/
   page-break-before: always;
 }
-  div.post.single, div.post:last-child { border-bottom:none; }
+  div.post.single, div.post:last-child { border-bottom: none; }
   /*div.post h1:first-child, div.post h2:first-child { margin-top:0; }
   div.post h2.title, div.post h1:first-child { font-size:42px; }*/
   /*div.post h1 { margin-top: 1.618em; }*/
@@ -504,7 +511,7 @@ div.post {
 
 
 /* prettyprint */
-pre { color:black; }
+pre { color: black; }
 pre .str { color: #080; }
 pre .kwd { color: #000; font-weight: 500; }
 pre .com { color: #999; font-style: italic; }
@@ -533,7 +540,7 @@ pre .dec { color: #606; }
 }
 
 /* meta */
-div.meta { margin: 1em 0; }
+/*div.meta { margin: 1em 0; }
   div.meta p, div.meta .item { margin: 0; }
   div.meta .item, div.meta .tag {
     background-repeat: no-repeat;
@@ -579,7 +586,7 @@ div.meta { margin: 1em 0; }
     background-image:
         url(http://static.tumblr.com/9njdies/dbPl8uqid/comment-count.png);
     display: none;
-  }
+  }*/
 
 footer {
   color: black;
@@ -602,27 +609,27 @@ footer {
     text-decoration: none;
   }
   footer a.cc:hover img.cc {
-    opacity:1;
+    opacity: 1;
   }
   footer a:link, a:visited {
-    color:white;
+    color: white;
   }
   footer input {
-    text-align:center;
-    color:black;
+    text-align: center;
+    color: black;
   }
 
 /* Viewport size */
-
-/*@media screen and (min-width: 480px) {
+/*
+@media screen and (min-width: 480px) {
   body { zoom: 0.8; }
-}*/
-/*@media screen and (min-width: 680px) {
+}
+@media screen and (min-width: 680px) {
   body { width: 900px; }
-  header { margin:0; }
-  footer { margin:5% 0; }
-}*/
-/*@media screen and (min-width: 780px) {
+  header { margin: 0; }
+  footer { margin: 5% 0; }
+}
+@media screen and (min-width: 780px) {
   body { zoom: 1.3; }
 }*/
 /* device specifics */
@@ -630,31 +637,32 @@ footer {
 /* medium-res devices (e.g. ipad and iphone) */
 @media only screen and (max-device-width: 1024px) {
   /* To constrain pre-formatted text to body width */
-  body { color:black; }
-  html pre { overflow:scroll; -webkit-overflow-scrolling: touch; }
-  html pre, html code, html tt { font-size:0.95em; }
-  header { margin:0 60px 0 45px; }
-  header ul.navigation li a { font-size:14px; }
-  div.content { font-size:1.2em; }
+  body { color: black; }
+  html pre { overflow: scroll; -webkit-overflow-scrolling: touch; }
+  html pre, html code, html tt { font-size: 0.95em; }
+  header { margin: 0 60px 0 45px; }
+  header ul.navigation li a { font-size: 14px; }
+  div.content { font-size: 1.2em; }
 }
 
 /* iPhone et al */
 @media only screen and (max-device-width: 480px) {
   header {
     height: 120px;
-    margin:0 1em 0 0.8em;
+    margin: 0 5px 0 0.8em;
   }
-    header h1 { float:none; }
+    header h1 { float: none; }
     header ul.navigation {
-      float:none;
-      padding-left:1em;
-      margin-top: 5px;
+      float: none;
+      padding-left: 0px;
+      margin-top: 0px;
     }
     header ul.navigation > li > a {
-      font-size:13px;
+      font-size: 13px;
       font-family: 'Roboto Condensed', sans-serif;
-      font-weight:400;
+      font-weight: 400;
     }
+    header ul.navigation li:first-child { padding-left: 0px; }
   
   h1,h2 { font-size: 160%; }
   h3 { font-size: 130%; }
@@ -662,34 +670,36 @@ footer {
   h5, h6 { font-size: 110%; }
 
   pre, code, tt { font-size:11px; }
+
+  div.inner { margin-top: 100px }
   
-  div.content { padding:3em 1.4em; font-size:0.9em; }
-    div.content blockquote { padding-left:2.5em; margin-left:-1em; }
-    div.content div.quotation blockquote { margin-left:0px; }
-    div.content:not(.sub) h1:first-child { font-size:210%; }
+  div.content { padding: 3em 1.4em; font-size: 0.9em; margin-top: 0px }
+    div.content blockquote { padding-left: 2.5em; margin-left: -1em; }
+    div.content div.quotation blockquote { margin-left: 0px; }
+    div.content:not(.sub) h1:first-child { font-size: 210%; }
     div.content pre {
-      margin: 0 -0.4em;
+      /*margin: 0 -0.4em;
       padding: 0.5em;
-      border-radius:1px;
+      border-radius: 1px;*/
       /*border: none;
       background-color: #eee;*/
     }
-    div.content *[align="right"] {
-      display:block;
-      float:none;
-      margin-left:0;
+    /*div.content *[align="right"] {
+      display: block;
+      float: none;
+      margin-left: 0;
     }
     div.content *[align="right"][width$="%"] {
-      display:inline-block;
-      float:right;
-      margin-left:1em;
+      display: inline-block;
+      float: right;
+      margin-left: 1em;
     }
     div.content *[align="right"][width="50%"] {
-      width:45%;
-    }
+      width: 45%;
+    }*/
 
   a.post-excerpt {
-    font-size:80%;
+    font-size: 80%;
   }
     a.post-excerpt div.padded-content {
       padding: 2em 2em !important;
@@ -735,103 +745,5 @@ footer {
   html.ipad { zoom:70%; }
 }*/
 
-/* ----------------- Begin old code -------------------- */
 
-/* Padding for spacing */
-.inner {
-  padding: 10px;
-}
-
-/* Header */
-.masthead-brand {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.masthead-nav > li {
-  display: inline-block;
-}
-.masthead-nav > li + li {
-  margin-left: 20px;
-}
-.masthead-nav > li > a {
-  padding-right: 0;
-  padding-left: 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff; /* IE8 proofing */ 
-  color: rgba(255,255,255,.75);
-  border-bottom: 2px solid transparent;
-}
-.masthead-nav > li > a:hover,
-.masthead-nav > li > a:focus {
-  background-color: transparent;
-  border-bottom-color: #a9a9a9;
-  border-bottom-color: rgba(255,255,255,.25);
-}
-.masthead-nav > .active > a,
-.masthead-nav > .active > a:hover,
-.masthead-nav > .active > a:focus {
-  color: #fff;
-  border-bottom-color: #fff;
-}
-
-@media (min-width: 768px) {
-  .masthead-brand {
-    float: left;
-  }
-  .masthead-nav {
-    float: right;
-  }
-}
-
-
-/* Cover */
-.cover {
-  padding: 0 20px;
-}
-.cover .btn-lg {
-  padding: 10px 20px;
-  font-weight: bold;
-}
-
-/* Footer */
-.mastfoot {
-  color: #999;  /* IE8 proofing */ 
-  color: rgba(50,50,255,.75);
-}
-
-/* Affix and center */
-
-@media (min-width: 700px) {
-  /* Pull out the header and footer */
-  
-  .masthead {
-    position: fixed;
-    top: 0;
-  }
-  .mastfoot {
-    position: fixed;
-    bottom: 0;
-  }
-  
-  /* Handle the widths */
-  
-  .masthead,
-  .mastfoot,
-  .cover-container {
-    width: 100%;  /*Must be percentage or pixels for horizontal alignment*/ 
-  }
-}
-
-/*
-@media (min-width: 700px) {
-  
-  .masthead,
-  .mastfoot,
-  .cover-container {
-    width: 700px;
-  }
-}
-*/
 
