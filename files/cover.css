@@ -59,11 +59,11 @@ h4 { font-size: 130%; }
 h5, h6 { font-size: 150%; }
 
 /*a { text-decoration:none; }*/
-a:link, a:active { color:#316d96; }
-a:visited { color:blue; }
+a:link, a:active { color:white; }
+a:visited { color:white; }
 a:link:hover, a:active:hover, a:visited:hover { text-decoration:underline; }
-a:link:hover, a:active:hover { color:#006be4; }
-a:visited:hover { color:#af00cf; }
+a:link:hover, a:active:hover { color:white; }
+a:visited:hover { color:white; }
 /*a > img { margin-bottom:-1px; }*/
 a.img { border:none; background:transparent !important; }
 
@@ -301,11 +301,6 @@ div.content.inner {
 div.posts div.end {
   padding: 40px;
   text-align: center;
-}
-
-div.end:hover, active, visited {
-  color: white;
-  text-decoration: underline;
 }
 
 /* ------------------------------------------------------------------------------------------- */
