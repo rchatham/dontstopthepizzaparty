@@ -303,6 +303,11 @@ div.posts div.end {
   text-align: center;
 }
 
+div.end:hover, active, visited {
+  color: white;
+  text-decoration: underline;
+}
+
 /* ------------------------------------------------------------------------------------------- */
 /* post excerpt */
 /* Wrapped in a div.content.full-bleed */
@@ -310,7 +315,7 @@ div.posts div.end {
 a.post-excerpt {
   display: block;
   color: inherit;
-  border-bottom: 2px solid #ddd;
+  /*border-bottom: 2px solid #ddd;*/
   text-decoration: none;
 }
   a.post-excerpt div.padded-content {
