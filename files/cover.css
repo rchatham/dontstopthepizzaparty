@@ -80,7 +80,7 @@ header {
   top: 0;
   display: block;
   height: 100px;
-  padding:0 60px 0 50px;
+  padding:0 30px 0 50px;
   color: white;
   text-shadow: 3px 3px 3px rgba(0,0,0,1);
 }
@@ -117,11 +117,12 @@ header {
   header ul.navigation li {
     display: inline-block;
     list-style: none;
-    padding-left: 1em;
+    padding-left: 10px;
   }
-  header ul.navigation li:first-child { padding-left: 40px; }
+  header ul.navigation li:first-child { padding-left: 0px; }
   header ul.navigation li a {
     color: white;
+    font-weight: bold;
     text-decoration: none;
     font-family: 'Roboto Condensed', 'Roboto';
     font-size: 14px;
@@ -131,9 +132,9 @@ header {
     text-rendering: geometricPrecision;
   }
   header ul.navigation li a:hover {
-    font-weight: bold;
     color: white; 
-    text-decoration: none; 
+    text-decoration: none;
+    font-weight: bolder;
   }
   header ul.navigation li a.active {
     /*font-weight: bold;*/
