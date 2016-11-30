@@ -176,6 +176,8 @@ div.container.content {
 
 /* Padding for spacing */
 div.inner { padding: 10px; }
+div.inner.double { padding: 20px; }
+div.inner.triple { padding: 30px; }
 
 /* ------------------------------------------------------------------------------------------- */
 /* main content */
