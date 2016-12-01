@@ -3,7 +3,15 @@
 A work in progress...
 
 ## Jekyll hosted on GitHub pages.
- - [Jekyll](http://jekyllrb.com/)
+
+Install [Jekyll](http://jekyllrb.com/) by typing the following into the command line.
+```
+$ gem install jekyll bundler
+```
+Then once you have cloned the repository and navigated to it you can preview at [http://localhost:4000](http://localhost:4000) by typing the following into the command line.
+```
+$ jekyll serve
+```
  
 ## Goals/Thoughts
 - [ ] Customize Instagram feed
