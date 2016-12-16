@@ -14,6 +14,7 @@ $ jekyll serve
 ```
  
 ## Goals/Thoughts
+- [ ] Integrate Medium for Blog Posts
 - [ ] Customize Instagram feed
 - [ ] Add more fun content to main page
 - [ ] Other types of content
