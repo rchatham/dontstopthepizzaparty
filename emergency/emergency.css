@@ -1,0 +1,185 @@
+/* Pizza Emergency at the Techno — the handheld around the game. */
+:root {
+  --yellow: #fcff6f;
+  --coral: #e9566f;
+  --ink: #17141a;
+  --ink-2: #26222b;
+  --cream: #fff8e6;
+  --cyan: #20c9e6;
+  --shell: #e9e2cf;
+  --shell-dark: #cfc6ae;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+.gb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gb__screen {
+  padding: 10px;
+  border-radius: 10px 10px 34px 10px;
+  background: #3b3644;
+  box-shadow: inset 0 0 0 2px #4b4555;
+  line-height: 0;
+}
+
+/* the canvas is 160x144; game.js sets an integer pixel size that fits */
+#screen {
+  width: 320px;
+  height: 288px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+  touch-action: none;
+}
+
+.gb__brand {
+  margin: 10px 0 0;
+  color: #8f87a0;
+  font: italic 700 15px/1 system-ui, sans-serif;
+  letter-spacing: 0.04em;
+}
+.gb__brand b { color: var(--coral); }
+.gb__brand span { color: var(--cyan); font-size: 11px; letter-spacing: 0.12em; }
+
+/* ---------- touch controls (phones / tablets) ---------- */
+.gb__pad {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 22px;
+  row-gap: 26px;
+  touch-action: none;
+}
+
+.dpad {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  justify-self: start;
+  margin-left: 6px;
+  touch-action: none;
+}
+.dpad span {
+  position: absolute;
+  background: #2c2833;
+  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.35);
+}
+.dpad__u, .dpad__d { left: 44px; width: 44px; height: 46px; }
+.dpad__l, .dpad__r { top: 44px; width: 46px; height: 44px; }
+.dpad__u { top: 0; border-radius: 6px 6px 0 0; }
+.dpad__d { bottom: 0; border-radius: 0 0 6px 6px; }
+.dpad__l { left: 0; border-radius: 6px 0 0 6px; }
+.dpad__r { right: 0; border-radius: 0 6px 6px 0; }
+.dpad__c { left: 44px; top: 44px; width: 44px; height: 44px; box-shadow: none !important; }
+.dpad [data-on] { background: #4a4455; }
+
+.ab {
+  position: relative;
+  justify-self: end;
+  width: 150px;
+  height: 110px;
+  margin-right: 4px;
+  transform: rotate(-22deg);
+}
+.ab__btn {
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 0 4px 0 #a13448;
+  color: rgba(23, 20, 26, 0.55);
+  font: 700 18px/1 system-ui, sans-serif;
+  touch-action: none;
+  cursor: pointer;
+}
+.ab__btn--b { left: 0; bottom: 4px; }
+.ab__btn--a { right: 0; top: 4px; }
+.ab__btn[data-on] { transform: translateY(3px); box-shadow: 0 1px 0 #a13448; }
+
+.ss {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+.ss__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8f87a0;
+  font: 700 10px/1 system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  touch-action: none;
+  cursor: pointer;
+}
+.ss__btn i {
+  width: 52px;
+  height: 14px;
+  border-radius: 7px;
+  background: #3b3644;
+  transform: rotate(-22deg);
+}
+.ss__btn[data-on] i { background: #5a5366; }
+
+.gb__keys {
+  display: none;
+  max-width: 640px;
+  margin: 18px 0 0;
+  color: #8f87a0;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+kbd {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--ink-2);
+  color: var(--yellow);
+  font: inherit;
+}
+
+.gb__exit {
+  margin: auto 0 0;
+  padding-top: 18px;
+  font-size: 13px;
+}
+.gb__exit a { color: var(--cyan); text-decoration: none; }
+.gb__exit a:hover { color: var(--yellow); }
+
+/* mouse + keyboard: hide the pad, show the key legend */
+@media (hover: hover) and (pointer: fine) {
+  .gb__pad { display: none; }
+  .gb__keys { display: block; }
+  .gb__exit { margin-top: 10px; }
+}
