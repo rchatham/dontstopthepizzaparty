@@ -384,6 +384,18 @@
     pad.addEventListener("pointerup", () => setDir(null));
     pad.addEventListener("pointercancel", () => setDir(null));
   }
+  // no zooming: iOS Safari ignores user-scalable=no, so stop pinches and
+  // double-taps here (a fast double-tap on a button is two presses, not a zoom)
+  ["gesturestart", "gesturechange", "gestureend", "dblclick"].forEach((t) =>
+    document.addEventListener(t, (e) => e.preventDefault(), { passive: false }));
+  document.addEventListener("touchmove", (e) => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+  let lastTouchEnd = 0;
+  document.addEventListener("touchend", (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd < 350 && !e.target.closest("a")) e.preventDefault();
+    lastTouchEnd = now;
+  }, { passive: false });
+
   // tapping the screen = A (or picks the tapped menu option)
   cv.addEventListener("pointerdown", (e) => {
     e.preventDefault();
