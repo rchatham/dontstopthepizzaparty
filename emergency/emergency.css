@@ -15,6 +15,8 @@
 html, body {
   margin: 0;
   height: 100%;
+  /* no double-tap zoom anywhere on the page (scrolling still works) */
+  touch-action: manipulation;
 }
 
 body {
@@ -33,6 +35,7 @@ body {
   padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .gb__screen {
