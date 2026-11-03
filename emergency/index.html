@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pizza Emergency at the Techno</title>
+  <meta name="description" content="A very slow, very old school pizza emergency. You found the secret.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#17141a">
+  <link href="/files/pizza-icon.png" rel="shortcut icon" type="image/png">
+  <link href="emergency.css?v=20261029a" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <main class="gb" aria-label="Pizza Emergency at the Techno, a retro game">
+    <div class="gb__screen">
+      <canvas id="screen" width="160" height="144" role="img" aria-label="Game screen"></canvas>
+    </div>
+    <p class="gb__brand"><b>PIZZA</b>BOY <span>COLOR-ISH</span></p>
+
+    <div class="gb__pad" aria-hidden="true">
+      <div class="dpad" data-dpad><span class="dpad__u"></span><span class="dpad__r"></span><span class="dpad__d"></span><span class="dpad__l"></span><span class="dpad__c"></span></div>
+      <div class="ab">
+        <button class="ab__btn ab__btn--b" type="button" data-key="b" tabindex="-1">B</button>
+        <button class="ab__btn ab__btn--a" type="button" data-key="a" tabindex="-1">A</button>
+      </div>
+      <div class="ss">
+        <button class="ss__btn" type="button" data-key="select" tabindex="-1"><i></i>SOUND</button>
+        <button class="ss__btn" type="button" data-key="start" tabindex="-1"><i></i>START</button>
+      </div>
+    </div>
+
+    <p class="gb__keys">Arrows / WASD to move &middot; <kbd>Z</kbd> / <kbd>Space</kbd> = A &middot; <kbd>X</kbd> = B &middot; <kbd>Enter</kbd> = Start &middot; <kbd>M</kbd> = sound</p>
+    <p class="gb__exit"><a href="https://pizzaandtechno.com/">&larr; pizzaandtechno.com</a></p>
+  </main>
+  <script src="party.js?v=20261030a"></script>
+  <script src="game.js?v=20261030a"></script>
+</body>
+</html>

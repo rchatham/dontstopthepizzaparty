@@ -8,6 +8,9 @@ function navigateForInput(value) {
   if (value === "Champagne") {
     window.location = "/guest-list.html";
   }
+  if (value.toLowerCase() === "techno" || value.toLowerCase() === "pizza emergency") {
+    window.location = "/emergency/";
+  }
   if (value.toLowerCase() === "photos") {
     window.location = "/insta/";
   }
