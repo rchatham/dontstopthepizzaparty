@@ -1,0 +1,163 @@
+/* Don't Stop the Pizza Party: homepage hero (only loaded by index.html).
+   The old pages keep cover.css as it was. */
+:root {
+  --pink: #ff2d9b;
+  --yellow: #ffe73c;
+  --ink: #111;
+  --cream: #fffaf0;
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html, body { height: 100%; }
+/* cover.css fixes the body at 900px on desktop and gives every h1 a black box;
+   the hero wants the whole screen and a bare logo */
+body {
+  width: auto;
+  background: var(--pink);
+  color: var(--ink);
+  text-shadow: none;
+  overflow-x: hidden;
+}
+
+.dsp-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 48px 16px 28px;
+  box-sizing: border-box;
+  overflow: hidden;
+  /* pointer parallax, set by home.js */
+  --px: 0;
+  --py: 0;
+}
+
+/* ---- the drifting doodles behind everything ---- */
+.dsp-doodles { position: absolute; inset: 0; pointer-events: none; }
+.dsp-doodle, .dsp-sticker {
+  position: absolute;
+  display: block;
+  height: auto;
+  translate: calc(var(--px) * var(--depth, 20px)) calc(var(--py) * var(--depth, 20px));
+  transition: translate 0.6s var(--spring);
+  animation: dsp-float var(--dur, 14s) ease-in-out infinite alternate;
+}
+.dsp-doodle { opacity: 0.09; }
+.d1 { top: -6%;  left: -14%; width: 62vmin; --depth: 18px; --dur: 17s; rotate: -12deg; }
+.d2 { top: 8%;   right: -16%; width: 48vmin; --depth: 30px; --dur: 13s; rotate: 18deg; }
+.d3 { bottom: 6%; left: -6%; width: 40vmin; --depth: 26px; --dur: 15s; rotate: 24deg; }
+.d4 { bottom: -18%; right: -10%; width: 70vmin; --depth: 14px; --dur: 19s; rotate: 8deg; }
+.d5 { top: 34%;  left: 38%; width: 22vmin; --depth: 40px; --dur: 11s; rotate: -30deg; opacity: 0.07; }
+.dsp-sticker { width: clamp(64px, 11vmin, 120px); filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.35)); --dur: 9s; }
+.s1 { top: 28px; left: 22px; rotate: -18deg; --depth: 46px; }
+.s2 { bottom: 14px; right: 10px; rotate: 152deg; --depth: 52px; --dur: 11s; }
+
+@keyframes dsp-float {
+  from { transform: translateY(-10px) scale(1); }
+  to   { transform: translateY(12px) scale(1.04); }
+}
+
+/* ---- logo + tagline ---- */
+.dsp-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dsp-logo {
+  margin: 0;
+  background: none;
+  line-height: 0;
+  animation: dsp-pop 0.9s var(--spring) 0.15s both;
+}
+.dsp-logo img {
+  display: block;
+  width: auto;
+  height: min(48vh, 420px);
+  max-width: 70vw;
+  object-fit: contain;
+  filter: drop-shadow(3px 4px 0 rgba(255, 231, 60, 0.9));
+}
+.dsp-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 6px 0 0;
+  rotate: -9deg;
+  font: italic 800 clamp(30px, 6.2vmin, 58px)/0.95 "Bitter", Georgia, serif;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+.dsp-tag span { display: block; font: inherit; animation: dsp-rise 0.7s var(--spring) both; }
+.dsp-tag span:nth-child(1) { animation-delay: 0.75s; translate: -0.6em 0; }
+.dsp-tag span:nth-child(2) { animation-delay: 0.9s; font-size: 1.25em; color: var(--yellow); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--ink); }
+.dsp-tag span:nth-child(3) { animation-delay: 1.05s; translate: 0.7em 0; }
+
+@keyframes dsp-pop {
+  from { transform: scale(0) rotate(-8deg); opacity: 0; }
+  60%  { opacity: 1; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes dsp-rise {
+  from { transform: translateY(0.6em) scale(0.9); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* ---- the secret word, as a fat pill ---- */
+.dsp-pill {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(320px, 100%);
+  margin-top: clamp(22px, 4vh, 40px);
+  padding: 0 18px;
+  box-sizing: border-box;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  box-shadow: 5px 6px 0 var(--ink);
+  cursor: text;
+  transition: transform 0.25s var(--spring), box-shadow 0.25s var(--spring);
+  animation: dsp-rise 0.7s var(--spring) 1.3s both;
+}
+.dsp-pill:focus-within { transform: translate(-2px, -2px) rotate(-1deg); box-shadow: 8px 9px 0 var(--ink); }
+.dsp-pill__icon { font-size: 20px; line-height: 1; }
+.dsp-pill input {
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 700 17px/1 "Roboto Condensed", helvetica, sans-serif; /* 16px+ so iPhones don't zoom on focus */
+  letter-spacing: 0.02em;
+}
+.dsp-pill input::placeholder { color: rgba(17, 17, 17, 0.45); font-weight: 400; }
+
+.dsp-credits {
+  position: relative;
+  z-index: 2;
+  max-width: min(34em, 70vw);
+  margin: 26px 0 0;
+  color: rgba(17, 17, 17, 0.7);
+  font: 300 12px/1.5 "Roboto Condensed", helvetica, sans-serif;
+  text-align: center;
+}
+.dsp-credits a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (min-width: 900px) {
+  .dsp-logo img { height: min(56vh, 520px); }
+  .s1 { top: 40px; left: 48px; }
+  .s2 { bottom: 64px; right: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dsp-doodle, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill { animation: none; transition: none; }
+}

@@ -1,11 +1,38 @@
 ---
 layout: default
 description: Where the pizza party dont stop!
-<!-- no_header: true -->
+no_footer: true
 ---
+{% comment %} Homepage hero, after the pizzaandtechno.com hero: one hot colour, faint
+   floating doodles, a logo that pops in, a tilted stacked tagline, and the secret
+   word box as a fat pill. The old site lives on behind the word "nostalgia". {% endcomment %}
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/files/home.css?v=20261104a">
 
-<div class="inner main">
-	<img src="./files/dontstop.png" style="height:50%;width:50%;max-width:350px" />
-</div>
+<main class="dsp-hero">
+  <div class="dsp-doodles" aria-hidden="true">
+    <img class="dsp-doodle d1" src="/files/whole-pizza.png" alt="" width="200" height="200">
+    <img class="dsp-doodle d2" src="/files/pizza-icon.png" alt="" width="512" height="512">
+    <img class="dsp-doodle d3" src="/files/pizza-slice-black.png" alt="" width="200" height="200">
+    <img class="dsp-doodle d4" src="/files/whole-pizza.png" alt="" width="200" height="200">
+    <img class="dsp-doodle d5" src="/files/pizza-slice-black.png" alt="" width="200" height="200">
+    <img class="dsp-sticker s1" src="/files/pizza-slice.png" alt="" width="256" height="256">
+    <img class="dsp-sticker s2" src="/files/pizza-slice.png" alt="" width="256" height="256">
+  </div>
 
+  <div class="dsp-copy">
+    <h1 class="dsp-logo"><img src="/files/dontstop.png" width="481" height="796" alt="Don't Stop the Pizza Party"></h1>
+    <p class="dsp-tag"><span>the party</span><span>never</span><span>stops</span></p>
+  </div>
 
+  <label class="dsp-pill">
+    <span class="dsp-pill__icon" aria-hidden="true">🍕</span>
+    <input type="text" name="password" placeholder="psst… the password?" aria-label="Secret word"
+           autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
+           onkeyup="navigateForInput(this.value)">
+  </label>
+
+  <p class="dsp-credits">created by <a href="http://twitter.com/reidamandweep">reidcotta</a> · designed by <a href="http://twitter.com/willdjthrill">dj willaa</a> · with help from <a href="http://twitter.com/Alex_Chatham">alexdacat</a> · #pizzasquad</p>
+</main>
+
+<script src="/files/home.js?v=20261104a" defer></script>
