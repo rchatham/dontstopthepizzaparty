@@ -5,13 +5,15 @@
   --yellow: #ffe73c;
   --ink: #111;
   --cream: #fffaf0;
-  /* the spotlight behind the words: the game's night sky (game black is
-     #17141a / 23, 20, 26 if you want it darker) */
-  --spot: #1d1b3a;
-  --spot-rgb: 29, 27, 58;
-  --words: var(--cream);
-  --logo-filter: invert(1) drop-shadow(3px 4px 0 rgba(255, 45, 155, 0.95));
-  --accent: var(--pink);
+  /* the palette: one set of these is the whole colour scheme */
+  --spot: #ff2d9b;              /* the spotlight behind the words */
+  --spot-rgb: 255, 45, 155;     /* same colour, for the spotlight's fade */
+  --logo: #111;                 /* the script logo */
+  --logo-edge: #ffe73c;         /* the logo's offset edge */
+  --words: #111;                /* "the party" / "stops", the credits */
+  --hi: #ffe73c;                /* "never" */
+  --hi-edge: #111;              /* "never"'s outline and shadow */
+  --accent: #111;               /* the pill's offset shadow */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -42,7 +44,7 @@ body {
   --py: 0;
 }
 
-/* ---- the old melting-pizza wallpaper, creeping behind a dark spotlight ---- */
+/* ---- the old melting-pizza wallpaper, creeping behind a spotlight ---- */
 .dsp-doodles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .dsp-wallpaper {
   position: absolute;
@@ -89,10 +91,14 @@ body {
   flex-direction: column;
   align-items: center;
 }
+/* the logo is painted through its own shape (a mask), so it can be any colour;
+   the invisible img keeps its size and its alt text */
 .dsp-logo {
+  position: relative;
   margin: 0;
   background: none;
   line-height: 0;
+  filter: drop-shadow(3px 4px 0 var(--logo-edge));
   animation: dsp-pop 0.9s var(--spring) 0.15s both;
 }
 .dsp-logo img {
@@ -101,7 +107,15 @@ body {
   height: min(48vh, 420px);
   max-width: 70vw;
   object-fit: contain;
-  filter: var(--logo-filter);
+  opacity: 0;
+}
+.dsp-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--logo);
+  -webkit-mask: url(/files/dontstop.png) center / contain no-repeat;
+  mask: url(/files/dontstop.png) center / contain no-repeat;
 }
 .dsp-tag {
   display: flex;
@@ -115,7 +129,7 @@ body {
 }
 .dsp-tag span { display: block; font: inherit; animation: dsp-rise 0.7s var(--spring) both; }
 .dsp-tag span:nth-child(1) { animation-delay: 0.75s; translate: -0.6em 0; }
-.dsp-tag span:nth-child(2) { animation-delay: 0.9s; font-size: 1.25em; color: var(--yellow); -webkit-text-stroke: 1.5px var(--ink); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--ink); }
+.dsp-tag span:nth-child(2) { animation-delay: 0.9s; font-size: 1.25em; color: var(--hi); -webkit-text-stroke: 1.5px var(--hi-edge); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--hi-edge); }
 .dsp-tag span:nth-child(3) { animation-delay: 1.05s; translate: 0.7em 0; }
 
 @keyframes dsp-pop {
@@ -170,7 +184,8 @@ body {
   background: rgba(var(--spot-rgb), 0.9);
   max-width: min(34em, 70vw);
   margin: 26px 0 0;
-  color: rgba(255, 250, 240, 0.75);
+  color: var(--words);
+  opacity: 0.85;
   font: 300 12px/1.5 "Roboto Condensed", helvetica, sans-serif;
   text-align: center;
 }

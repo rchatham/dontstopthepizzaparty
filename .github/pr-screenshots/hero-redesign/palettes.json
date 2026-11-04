@@ -1,0 +1,10 @@
+[
+ ["1 Hot Pink",      {"spot":"#ff2d9b","rgb":"255, 45, 155","logo":"#111","edge":"#ffe73c","words":"#111","hi":"#ffe73c","hiedge":"#111","accent":"#111"}],
+ ["2 Mustard Melt",  {"spot":"#ffd21f","rgb":"255, 210, 31","logo":"#111","edge":"#ff2d9b","words":"#111","hi":"#ff2d9b","hiedge":"#111","accent":"#ff2d9b"}],
+ ["3 Electric Cyan", {"spot":"#20c9e6","rgb":"32, 201, 230","logo":"#111","edge":"#ff2d9b","words":"#111","hi":"#ffe73c","hiedge":"#111","accent":"#ff2d9b"}],
+ ["4 Acid Lime",     {"spot":"#a6ff2e","rgb":"166, 255, 46","logo":"#111","edge":"#ff2d9b","words":"#111","hi":"#ff2d9b","hiedge":"#111","accent":"#111"}],
+ ["5 Tangerine",     {"spot":"#ff7a1a","rgb":"255, 122, 26","logo":"#111","edge":"#ffe73c","words":"#111","hi":"#fffaf0","hiedge":"#111","accent":"#111"}],
+ ["6 Ultraviolet",   {"spot":"#8a2be2","rgb":"138, 43, 226","logo":"#fffaf0","edge":"#ff2d9b","words":"#fffaf0","hi":"#ffe73c","hiedge":"#111","accent":"#ff2d9b"}],
+ ["7 Pepperoni Red", {"spot":"#e8262b","rgb":"232, 38, 43","logo":"#fffaf0","edge":"#111","words":"#fffaf0","hi":"#ffe73c","hiedge":"#111","accent":"#111"}],
+ ["8 Bubblegum Mint",{"spot":"#ff9ad5","rgb":"255, 154, 213","logo":"#111","edge":"#3dffc0","words":"#111","hi":"#3dffc0","hiedge":"#111","accent":"#111"}]
+]
