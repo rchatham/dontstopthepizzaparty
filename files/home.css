@@ -35,23 +35,37 @@ body {
   --py: 0;
 }
 
-/* ---- the drifting doodles behind everything ---- */
-.dsp-doodles { position: absolute; inset: 0; pointer-events: none; }
-.dsp-doodle, .dsp-sticker {
+/* ---- the old melting-pizza wallpaper, creeping behind a pink spotlight ---- */
+.dsp-doodles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.dsp-wallpaper {
+  position: absolute;
+  inset: -198px -156px;              /* one tile of slack each way, so the crawl never shows an edge */
+  background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
+  translate: calc(var(--px) * -14px) calc(var(--py) * -14px);
+  transition: translate 0.8s var(--spring);
+  animation: dsp-crawl 36s linear infinite;
+}
+@keyframes dsp-crawl {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(156px, 198px); }   /* exactly one tile: seamless loop */
+}
+/* solid pink where the words are, the full insane pattern toward the edges */
+.dsp-spot {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 46% 44% at 50% 47%,
+    var(--pink) 0%, var(--pink) 52%, rgba(255, 45, 155, 0.82) 70%, rgba(255, 45, 155, 0) 100%);
+}
+.dsp-sticker {
   position: absolute;
   display: block;
   height: auto;
+  width: clamp(64px, 11vmin, 120px);
+  filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.35));
   translate: calc(var(--px) * var(--depth, 20px)) calc(var(--py) * var(--depth, 20px));
   transition: translate 0.6s var(--spring);
-  animation: dsp-float var(--dur, 14s) ease-in-out infinite alternate;
+  animation: dsp-float var(--dur, 9s) ease-in-out infinite alternate;
 }
-.dsp-doodle { opacity: 0.09; }
-.d1 { top: -6%;  left: -14%; width: 62vmin; --depth: 18px; --dur: 17s; rotate: -12deg; }
-.d2 { top: 8%;   right: -16%; width: 48vmin; --depth: 30px; --dur: 13s; rotate: 18deg; }
-.d3 { bottom: 6%; left: -6%; width: 40vmin; --depth: 26px; --dur: 15s; rotate: 24deg; }
-.d4 { bottom: -18%; right: -10%; width: 70vmin; --depth: 14px; --dur: 19s; rotate: 8deg; }
-.d5 { top: 34%;  left: 38%; width: 22vmin; --depth: 40px; --dur: 11s; rotate: -30deg; opacity: 0.07; }
-.dsp-sticker { width: clamp(64px, 11vmin, 120px); filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.35)); --dur: 9s; }
 .s1 { top: 28px; left: 22px; rotate: -18deg; --depth: 46px; }
 .s2 { bottom: 14px; right: 10px; rotate: 152deg; --depth: 52px; --dur: 11s; }
 
@@ -144,6 +158,9 @@ body {
 .dsp-credits {
   position: relative;
   z-index: 2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 45, 155, 0.92);
   max-width: min(34em, 70vw);
   margin: 26px 0 0;
   color: rgba(17, 17, 17, 0.7);
@@ -159,5 +176,5 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dsp-doodle, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill { animation: none; transition: none; }
+  .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill { animation: none; transition: none; }
 }
