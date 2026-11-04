@@ -5,6 +5,13 @@
   --yellow: #ffe73c;
   --ink: #111;
   --cream: #fffaf0;
+  /* the spotlight behind the words: the game's night sky (game black is
+     #17141a / 23, 20, 26 if you want it darker) */
+  --spot: #1d1b3a;
+  --spot-rgb: 29, 27, 58;
+  --words: var(--cream);
+  --logo-filter: invert(1) drop-shadow(3px 4px 0 rgba(255, 45, 155, 0.95));
+  --accent: var(--pink);
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -13,8 +20,8 @@ html, body { height: 100%; }
    the hero wants the whole screen and a bare logo */
 body {
   width: auto;
-  background: var(--pink);
-  color: var(--ink);
+  background: var(--spot);
+  color: var(--words);
   text-shadow: none;
   overflow-x: hidden;
 }
@@ -35,7 +42,7 @@ body {
   --py: 0;
 }
 
-/* ---- the old melting-pizza wallpaper, creeping behind a pink spotlight ---- */
+/* ---- the old melting-pizza wallpaper, creeping behind a dark spotlight ---- */
 .dsp-doodles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .dsp-wallpaper {
   position: absolute;
@@ -49,12 +56,12 @@ body {
   from { transform: translate(0, 0); }
   to   { transform: translate(156px, 198px); }   /* exactly one tile: seamless loop */
 }
-/* solid pink where the words are, the full insane pattern toward the edges */
+/* solid --spot where the words are, the full insane pattern toward the edges */
 .dsp-spot {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 46% 44% at 50% 47%,
-    var(--pink) 0%, var(--pink) 52%, rgba(255, 45, 155, 0.82) 70%, rgba(255, 45, 155, 0) 100%);
+    var(--spot) 0%, var(--spot) 52%, rgba(var(--spot-rgb), 0.85) 70%, rgba(var(--spot-rgb), 0) 100%);
 }
 .dsp-sticker {
   position: absolute;
@@ -94,7 +101,7 @@ body {
   height: min(48vh, 420px);
   max-width: 70vw;
   object-fit: contain;
-  filter: drop-shadow(3px 4px 0 rgba(255, 231, 60, 0.9));
+  filter: var(--logo-filter);
 }
 .dsp-tag {
   display: flex;
@@ -135,12 +142,12 @@ body {
   border: 3px solid var(--ink);
   border-radius: 999px;
   background: var(--cream);
-  box-shadow: 5px 6px 0 var(--ink);
+  box-shadow: 5px 6px 0 var(--accent);
   cursor: text;
   transition: transform 0.25s var(--spring), box-shadow 0.25s var(--spring);
   animation: dsp-rise 0.7s var(--spring) 1.3s both;
 }
-.dsp-pill:focus-within { transform: translate(-2px, -2px) rotate(-1deg); box-shadow: 8px 9px 0 var(--ink); }
+.dsp-pill:focus-within { transform: translate(-2px, -2px) rotate(-1deg); box-shadow: 8px 9px 0 var(--accent); }
 .dsp-pill__icon { font-size: 20px; line-height: 1; }
 .dsp-pill input {
   flex: 1;
@@ -160,14 +167,14 @@ body {
   z-index: 2;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(255, 45, 155, 0.92);
+  background: rgba(var(--spot-rgb), 0.9);
   max-width: min(34em, 70vw);
   margin: 26px 0 0;
-  color: rgba(17, 17, 17, 0.7);
+  color: rgba(255, 250, 240, 0.75);
   font: 300 12px/1.5 "Roboto Condensed", helvetica, sans-serif;
   text-align: center;
 }
-.dsp-credits a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+.dsp-credits a { color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
 
 @media (min-width: 900px) {
   .dsp-logo img { height: min(56vh, 520px); }
