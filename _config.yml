@@ -31,3 +31,18 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+# The old site (photos, The Slice blog, the archive) is kept for nostalgia:
+# those pages still show the old menu, the homepage doesn't. Type
+# "nostalgia" in the footer box to find them.
+defaults:
+  - scope: { path: "insta" }
+    values: { nostalgia: true }
+  - scope: { path: "blog" }
+    values: { nostalgia: true }
+  - scope: { path: "archive" }
+    values: { nostalgia: true }
+  - scope: { path: "vault" }
+    values: { nostalgia: true }
+  - scope: { path: "", type: "posts" }
+    values: { nostalgia: true }
