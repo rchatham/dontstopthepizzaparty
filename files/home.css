@@ -38,7 +38,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   min-height: 100svh;
-  padding: 48px 16px 28px;
+  padding: 48px 16px 60px;
   box-sizing: border-box;
   overflow: hidden;
   /* pointer parallax, set by home.js */
@@ -299,19 +299,24 @@ body {
 .dsp-pill input::placeholder { color: rgba(17, 17, 17, 0.45); font-weight: 400; }
 
 .dsp-credits {
-  position: relative;
+  position: absolute;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
-  padding: 4px 12px;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  padding: 2px 8px;
   border-radius: 999px;
   background: rgba(var(--spot-rgb), 0.9);
-  max-width: min(34em, 70vw);
-  margin: 26px 0 0;
+  margin: 0;
   color: var(--words);
   opacity: 0.85;
-  font: 300 12px/1.5 "Roboto Condensed", helvetica, sans-serif;
+  font: 300 10px/1.4 "Roboto Condensed", helvetica, sans-serif;
   text-align: center;
 }
-.dsp-credits a { color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
+.dsp-credits a { font: inherit; color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
 
 @media (min-width: 900px) {
   .s1 { top: 40px; left: 48px; }
