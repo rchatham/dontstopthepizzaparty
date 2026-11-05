@@ -242,6 +242,7 @@ body {
   margin: 0;
   background: none;
   line-height: 0;
+  rotate: -5deg;                /* tilted like the tagline (-9deg), a little less */
   /* a 2px halo all round, then the offset edge */
   filter:
     drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
