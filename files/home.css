@@ -211,6 +211,8 @@ body {
 
 /* ---- logo + tagline ---- */
 .dsp-copy {
+  translate: calc(var(--px) * 22px) calc(var(--py) * 16px);
+  transition: translate 0.8s var(--spring);
   position: relative;
   z-index: 2;
   display: flex;
@@ -225,8 +227,6 @@ body {
   background: none;
   color: var(--logo);
   rotate: -9deg;
-  translate: calc(var(--px) * 22px) calc(var(--py) * 16px);
-  transition: translate 0.8s var(--spring);
   font: 400 clamp(38px, 11vw, 112px)/0.92 "Mr Dafoe", cursive;
   text-align: center;
   filter:
@@ -242,8 +242,6 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 28px 0 0;
-  translate: calc(var(--px) * -14px) calc(var(--py) * -10px);
-  transition: translate 0.8s var(--spring);
   rotate: -9deg;
   font: italic 800 clamp(30px, 6.2vmin, 58px)/0.95 "Bitter", Georgia, serif;
   letter-spacing: -0.01em;
@@ -328,5 +326,5 @@ body {
   .dsp-spot { opacity: 0 !important; transform: none !important; }
   .t1 { opacity: 1 !important; --sx: 46%; --sy: 44%; }
   .dsp-lights { display: none; }
-  .dsp-logo, .dsp-tag { translate: none; transition: none; }
+  .dsp-copy { translate: none; transition: none; }
 }
