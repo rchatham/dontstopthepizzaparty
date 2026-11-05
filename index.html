@@ -1,11 +1,45 @@
 ---
 layout: default
 description: Where the pizza party dont stop!
-<!-- no_header: true -->
+no_footer: true
 ---
+{% comment %} Homepage hero, after the pizzaandtechno.com hero: the old melting-pizza
+   wallpaper as a beat visualizer (columns of pizzas bouncing like EQ bars, a kick
+   zoom, a slow hue spin) behind a light show (three tints taking turns and pulsing,
+   sweeping beams, blinking lights), a logo that pops in, a tilted stacked tagline, and the secret
+   word box as a fat pill. data-lights picks the pattern: strobe, fade, chase or pulse
+   (try ?lights=fade). The old site lives on behind the word "nostalgia". {% endcomment %}
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/files/home.css?v=20261105c">
 
-<div class="inner main">
-	<img src="./files/dontstop.png" style="height:50%;width:50%;max-width:350px" />
-</div>
+<main class="dsp-hero" data-lights="strobe">
+  <div class="dsp-doodles" aria-hidden="true">
+    <div class="dsp-viz"><div class="dsp-wallpaper"></div></div>
+    <div class="dsp-spots">
+      <div class="dsp-spot t1"></div><div class="dsp-spot t2"></div><div class="dsp-spot t3"></div>
+    </div>
+    <div class="dsp-lights">
+      <span class="beam b1"></span><span class="beam b2"></span><span class="beam b3"></span><span class="beam b4"></span>
+      <span class="par"></span><span class="par"></span><span class="par"></span><span class="par"></span><span class="par"></span><span class="par"></span>
+      <span class="flash"></span>
+    </div>
+    <img class="dsp-sticker s1" src="/files/pizza-slice.png" alt="" width="256" height="256">
+    <img class="dsp-sticker s2" src="/files/pizza-slice.png" alt="" width="256" height="256">
+  </div>
 
+  <div class="dsp-copy">
+    <h1 class="dsp-logo"><img src="/files/dontstop.png" width="481" height="796" alt="Don't Stop the Pizza Party"></h1>
+    <p class="dsp-tag"><span>the party</span><span>never</span><span>stops</span></p>
+  </div>
 
+  <label class="dsp-pill">
+    <span class="dsp-pill__icon" aria-hidden="true">🍕</span>
+    <input type="text" name="password" placeholder="psst… the password?" aria-label="Secret word"
+           autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"
+           onkeyup="navigateForInput(this.value)">
+  </label>
+
+  <p class="dsp-credits">created by <a href="http://twitter.com/reidamandweep">reidcotta</a> · designed by <a href="http://twitter.com/willdjthrill">dj willaa</a> · with help from <a href="http://twitter.com/Alex_Chatham">alexdacat</a> · #pizzasquad</p>
+</main>
+
+<script src="/files/home.js?v=20261105c" defer></script>

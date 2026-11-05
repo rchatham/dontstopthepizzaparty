@@ -1,0 +1,336 @@
+/* Don't Stop the Pizza Party: homepage hero (only loaded by index.html).
+   The old pages keep cover.css as it was. */
+:root {
+  --pink: #ff2d9b;
+  --yellow: #ffe73c;
+  --ink: #111;
+  --cream: #fffaf0;
+  /* the palette: one set of these is the whole colour scheme */
+  --spot: #ff2d9b;              /* the spotlight behind the words */
+  --spot-rgb: 255, 45, 155;     /* same colour, for the spotlight's fade */
+  --logo: #111;                 /* the script logo */
+  --logo-edge: #ffe73c;         /* the logo's offset edge */
+  --words: #111;                /* "the party" / "stops", the credits */
+  --hi: #ffe73c;                /* "never" */
+  --hi-edge: #111;              /* "never"'s outline and shadow */
+  --accent: #111;               /* the pill's offset shadow */
+  --spot-a: 0.38;               /* how solid the tint is on the beat (0 = none, 1 = solid); it pulses down to ~45% of this between beats */
+  --outline: #fffaf0;           /* halo round the logo and words, so they read on the pattern */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html, body { height: 100%; }
+/* cover.css fixes the body at 900px on desktop and gives every h1 a black box;
+   the hero wants the whole screen and a bare logo */
+body {
+  width: auto;
+  background: var(--spot);
+  color: var(--words);
+  text-shadow: none;
+  overflow-x: hidden;
+}
+
+.dsp-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 48px 16px 28px;
+  box-sizing: border-box;
+  overflow: hidden;
+  /* pointer parallax, set by home.js */
+  --px: 0;
+  --py: 0;
+}
+
+/* ---- the old melting-pizza wallpaper, creeping behind a spotlight ---- */
+.dsp-doodles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.dsp-wallpaper {
+  position: absolute;
+  inset: -198px -156px;              /* one tile of slack each way, so the crawl never shows an edge */
+  background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
+  translate: calc(var(--px) * -14px) calc(var(--py) * -14px);
+  transition: translate 0.8s var(--spring);
+  animation: dsp-crawl 36s linear infinite;
+}
+/* ---- the visualizer: the wallpaper kicks on every beat and its colours spin;
+   home.js splits it into tile-wide columns that bounce like EQ bars ---- */
+.dsp-viz {
+  position: absolute;
+  inset: 0;
+  will-change: transform, filter;
+  animation:
+    dsp-kick var(--beat) cubic-bezier(0.2, 0.7, 0.3, 1) infinite,
+    dsp-hue calc(var(--beat) * 32) linear infinite;
+}
+@keyframes dsp-kick { 0% { transform: scale(1.04); } 60%, 100% { transform: scale(1); } }
+@keyframes dsp-hue  { from { filter: hue-rotate(0deg) saturate(1.15); } to { filter: hue-rotate(360deg) saturate(1.15); } }
+.dsp-wallpaper.is-viz { display: flex; background: none; }
+.viz-col {
+  flex: 0 0 156px;
+  height: 100%;
+  background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
+  transition: transform var(--fall, 0.4s) cubic-bezier(0.5, 0, 0.75, 0);
+}
+.viz-col.hit { transition: transform 70ms ease-out; }
+[data-lights="off"] .dsp-viz { animation: none; }
+
+@keyframes dsp-crawl {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(156px, 198px); }   /* exactly one tile: seamless loop */
+}
+/* ---- the light show: three see-through tints taking turns behind the words ---- */
+.dsp-hero { --beat: 0.484s; }            /* 124 bpm; every pattern is timed off this */
+.dsp-spots { position: absolute; inset: 0; }
+.dsp-spot {
+  --sx: 46%;
+  --sy: 44%;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(ellipse var(--sx) var(--sy) at 50% 47%,
+    rgba(var(--c), var(--spot-a)) 0%,
+    rgba(var(--c), var(--spot-a)) 50%,
+    rgba(var(--c), calc(var(--spot-a) * 0.6)) 72%,
+    rgba(var(--c), 0) 100%);
+}
+.t1 { --c: 255, 45, 155; opacity: 1; }   /* hot pink (shown when nothing moves) */
+.t2 { --c: 32, 201, 230; }               /* electric cyan */
+.t3 { --c: 138, 43, 226; }               /* ultraviolet */
+
+/* strobe: a hard cut to the next colour on every beat */
+[data-lights="strobe"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 3) step-end infinite; }
+[data-lights="strobe"] .t2 { animation-delay: calc(var(--beat) * -2); }
+[data-lights="strobe"] .t3 { animation-delay: calc(var(--beat) * -1); }
+
+/* fade: a slow wash from one colour into the next */
+[data-lights="fade"] .dsp-spot { animation: dsp-wash calc(var(--beat) * 24) ease-in-out infinite; }
+[data-lights="fade"] .t2 { animation-delay: calc(var(--beat) * -16); }
+[data-lights="fade"] .t3 { animation-delay: calc(var(--beat) * -8); }
+
+/* chase: all three as smaller spotlights, circling behind the words */
+[data-lights="chase"] .dsp-spot { --sx: 34%; --sy: 30%; opacity: 1; animation: dsp-orbit calc(var(--beat) * 16) linear infinite; }
+[data-lights="chase"] .t2 { animation-delay: calc(var(--beat) * -16 / 3); }
+[data-lights="chase"] .t3 { animation-delay: calc(var(--beat) * -32 / 3); }
+
+/* pulse: each colour holds for a bar and throbs on every beat */
+/* every pattern: the tint swells on the beat and ebbs between */
+.dsp-spots { animation: dsp-throb var(--beat) ease-out infinite; }
+[data-lights="off"] .dsp-spots { animation: none; }
+
+[data-lights="pulse"] { --spot-a: 0.45; }
+[data-lights="pulse"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 12) step-end infinite; }
+[data-lights="pulse"] .t2 { animation-delay: calc(var(--beat) * -8); }
+[data-lights="pulse"] .t3 { animation-delay: calc(var(--beat) * -4); }
+[data-lights="pulse"] .dsp-spots { animation-name: dsp-throb-deep; }
+
+@keyframes dsp-cut   { 0% { opacity: 1; } 33.333% { opacity: 0; } }
+@keyframes dsp-wash  { 0%, 100% { opacity: 1; } 33.333%, 66.667% { opacity: 0; } }
+@keyframes dsp-throb      { 0% { opacity: 1; } 55%, 100% { opacity: 0.45; } }
+@keyframes dsp-throb-deep { 0% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
+@keyframes dsp-orbit {
+  0%, 100% { transform: translate(-16%, -8%); }
+  25%      { transform: translate(12%, -12%); }
+  50%      { transform: translate(16%, 8%); }
+  75%      { transform: translate(-10%, 12%); }
+}
+
+/* ---- club lights: sweeping beams, a row of blinking pars, a soft flash ---- */
+.dsp-lights { position: absolute; inset: 0; overflow: hidden; }
+.beam {
+  position: absolute;
+  top: -6%;
+  width: 70vmax;
+  height: 140vmax;
+  margin-left: -35vmax;
+  transform-origin: 50% 0;
+  background:
+    linear-gradient(to right, transparent 46%, rgba(255, 255, 255, 0.55) 50%, transparent 54%),
+    linear-gradient(to bottom, rgba(var(--c), 0.75), rgba(var(--c), 0.25) 55%, rgba(var(--c), 0) 85%);
+  clip-path: polygon(48.5% 0, 51.5% 0, 64% 100%, 36% 100%);
+  filter: blur(1.5px);
+  opacity: 0.6;
+  animation: dsp-sweep calc(var(--beat) * 8) ease-in-out infinite alternate;
+}
+.b1 { left: 8%;  --c: 255, 45, 155; --from: -38deg; --to: 12deg; }
+.b2 { left: 30%; --c: 32, 201, 230; --from: -18deg; --to: 26deg; animation-delay: calc(var(--beat) * -3); }
+.b3 { left: 70%; --c: 176, 107, 255; --from: 18deg; --to: -26deg; animation-delay: calc(var(--beat) * -5); }
+.b4 { left: 92%; --c: 255, 231, 60; --from: 38deg; --to: -12deg; animation-delay: calc(var(--beat) * -2); }
+@keyframes dsp-sweep { from { transform: rotate(var(--from)); } to { transform: rotate(var(--to)); } }
+
+.par {
+  position: absolute;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 25%, rgb(var(--c)) 45%);
+  box-shadow: 0 0 22px 10px rgba(var(--c), 0.85), 0 0 60px 20px rgba(var(--c), 0.45);
+  opacity: 0.2;
+  animation: dsp-blink calc(var(--beat) * 6) step-end infinite;
+}
+.par:nth-of-type(5)  { left: 30%; --c: 255, 45, 155;  animation-delay: 0s; }
+.par:nth-of-type(6)  { left: 38%; --c: 32, 201, 230;  animation-delay: calc(var(--beat) * -5); }
+.par:nth-of-type(7)  { left: 46%; --c: 176, 107, 255; animation-delay: calc(var(--beat) * -4); }
+.par:nth-of-type(8)  { left: 54%; --c: 255, 231, 60;  animation-delay: calc(var(--beat) * -3); }
+.par:nth-of-type(9)  { left: 62%; --c: 255, 45, 155;  animation-delay: calc(var(--beat) * -2); }
+.par:nth-of-type(10) { left: 70%; --c: 32, 201, 230;  animation-delay: calc(var(--beat) * -1); }
+@keyframes dsp-blink { 0% { opacity: 1; } 16.667% { opacity: 0.15; } }
+
+[data-lights="off"] .dsp-lights { display: none; }
+
+/* a soft white flash every other beat (about once a second: well under the
+   three-flashes-a-second limit for photosensitive viewers) */
+.flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+[data-lights="strobe"] .flash,
+[data-lights="pulse"] .flash { animation: dsp-flash calc(var(--beat) * 2) ease-out infinite; }
+@keyframes dsp-flash { 0% { opacity: 0.14; } 22%, 100% { opacity: 0; } }
+
+.dsp-sticker {
+  position: absolute;
+  display: block;
+  height: auto;
+  width: clamp(64px, 11vmin, 120px);
+  filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.35));
+  translate: calc(var(--px) * var(--depth, 20px)) calc(var(--py) * var(--depth, 20px));
+  transition: translate 0.6s var(--spring);
+  animation: dsp-float var(--dur, 9s) ease-in-out infinite alternate;
+}
+.s1 { top: 28px; left: 22px; rotate: -18deg; --depth: 46px; }
+.s2 { bottom: 14px; right: 10px; rotate: 152deg; --depth: 52px; --dur: 11s; }
+
+@keyframes dsp-float {
+  from { transform: translateY(-10px) scale(1); }
+  to   { transform: translateY(12px) scale(1.04); }
+}
+
+/* ---- logo + tagline ---- */
+.dsp-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* the logo is painted through its own shape (a mask), so it can be any colour;
+   the invisible img keeps its size and its alt text */
+.dsp-logo {
+  position: relative;
+  margin: 0;
+  background: none;
+  line-height: 0;
+  /* a 2px halo all round, then the offset edge */
+  filter:
+    drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
+    drop-shadow(0 2px 0 var(--outline)) drop-shadow(0 -2px 0 var(--outline))
+    drop-shadow(4px 5px 0 var(--logo-edge));
+  animation: dsp-pop 0.9s var(--spring) 0.15s both;
+}
+.dsp-logo img {
+  display: block;
+  width: auto;
+  height: min(48vh, 420px);
+  max-width: 70vw;
+  object-fit: contain;
+  opacity: 0;
+}
+.dsp-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--logo);
+  -webkit-mask: url(/files/dontstop.png) center / contain no-repeat;
+  mask: url(/files/dontstop.png) center / contain no-repeat;
+}
+.dsp-tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 6px 0 0;
+  rotate: -9deg;
+  font: italic 800 clamp(30px, 6.2vmin, 58px)/0.95 "Bitter", Georgia, serif;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+}
+.dsp-tag span { display: block; font: inherit; -webkit-text-stroke: 5px var(--outline); paint-order: stroke fill; animation: dsp-rise 0.7s var(--spring) both; }
+.dsp-tag span:nth-child(1) { animation-delay: 0.75s; translate: -0.6em 0; }
+.dsp-tag span:nth-child(2) { animation-delay: 0.9s; font-size: 1.25em; color: var(--hi); -webkit-text-stroke: 1.5px var(--hi-edge); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--hi-edge); }
+.dsp-tag span:nth-child(3) { animation-delay: 1.05s; translate: 0.7em 0; }
+
+@keyframes dsp-pop {
+  from { transform: scale(0) rotate(-8deg); opacity: 0; }
+  60%  { opacity: 1; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes dsp-rise {
+  from { transform: translateY(0.6em) scale(0.9); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* ---- the secret word, as a fat pill ---- */
+.dsp-pill {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: min(320px, 100%);
+  margin-top: clamp(22px, 4vh, 40px);
+  padding: 0 18px;
+  box-sizing: border-box;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+  box-shadow: 5px 6px 0 var(--accent);
+  cursor: text;
+  transition: transform 0.25s var(--spring), box-shadow 0.25s var(--spring);
+  animation: dsp-rise 0.7s var(--spring) 1.3s both;
+}
+.dsp-pill:focus-within { transform: translate(-2px, -2px) rotate(-1deg); box-shadow: 8px 9px 0 var(--accent); }
+.dsp-pill__icon { font-size: 20px; line-height: 1; }
+.dsp-pill input {
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 700 17px/1 "Roboto Condensed", helvetica, sans-serif; /* 16px+ so iPhones don't zoom on focus */
+  letter-spacing: 0.02em;
+}
+.dsp-pill input::placeholder { color: rgba(17, 17, 17, 0.45); font-weight: 400; }
+
+.dsp-credits {
+  position: relative;
+  z-index: 2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(var(--spot-rgb), 0.9);
+  max-width: min(34em, 70vw);
+  margin: 26px 0 0;
+  color: var(--words);
+  opacity: 0.85;
+  font: 300 12px/1.5 "Roboto Condensed", helvetica, sans-serif;
+  text-align: center;
+}
+.dsp-credits a { color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (min-width: 900px) {
+  .dsp-logo img { height: min(56vh, 520px); }
+  .s1 { top: 40px; left: 48px; }
+  .s2 { bottom: 64px; right: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill,
+  .dsp-spots, .dsp-spot, .dsp-viz { animation: none !important; transition: none; }
+  .dsp-spot { opacity: 0 !important; transform: none !important; }
+  .t1 { opacity: 1 !important; --sx: 46%; --sy: 44%; }
+  .dsp-lights { display: none; }
+}
