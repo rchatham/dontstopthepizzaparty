@@ -203,15 +203,16 @@ const DESKTOP = { width: 1440, height: 900 };
     await done(page);
   });
 
-  await check("sound is off until asked for, then toggles on and off", async () => {
+  await check("sound defaults on, starts with interaction, and stays muted when switched off", async () => {
     const page = await open(DESKTOP);
     const pressed = () => page.$eval("#stage-sound", (b) => b.getAttribute("aria-pressed"));
-    expect(await pressed() === "false", "sound starts on");
+    expect(await pressed() === "true", "sound is not enabled by default");
     await page.click(".dsp-controls summary");
-    await page.click("#stage-sound");
-    await page.waitForFunction(() => document.getElementById("stage-sound").getAttribute("aria-pressed") === "true", null, { timeout: 3000 });
+    await page.waitForFunction(() => document.getElementById("stage-sound").textContent === "Sound: on", null, { timeout: 3000 });
     await page.click("#stage-sound");
     expect(await pressed() === "false", "sound didn't stop");
+    await page.click(".dsp-party-button");
+    expect(await pressed() === "false", "interaction undid the mute");
     await done(page);
   });
 

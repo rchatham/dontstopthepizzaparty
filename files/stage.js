@@ -10,7 +10,7 @@
   var sound = document.getElementById('stage-sound');
   var status = hero.querySelector('.dsp-stage-status');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var audio, gain, filter, timer, playing = false, starting = false, step = 0, lastDrop = -Infinity;
+  var audio, gain, filter, timer, playing = false, soundWanted = true, starting = false, step = 0, lastDrop = -Infinity;
   var bounceTimer;
   var textGroup = hero.querySelector('.dsp-copy');
   textGroup.addEventListener('animationend', function (event) {
@@ -90,26 +90,51 @@
     timer = setTimeout(beat, 30000 / Number(tempo.value));
   }
   function stop() {
-    playing = false; clearTimeout(timer);
+    soundWanted = false; playing = false; clearTimeout(timer);
     if (gain) gain.gain.setTargetAtTime(0, audio.currentTime, 0.02);
     sound.setAttribute('aria-pressed', 'false'); sound.textContent = 'Sound: off';
   }
-  sound.addEventListener('click', async function () {
-    if (starting) return;
-    if (playing) { stop(); return; }
+  function prepareAudio() {
+    if (audio) return;
+    var Audio = window.AudioContext || window.webkitAudioContext;
+    audio = new Audio(); gain = audio.createGain(); filter = audio.createBiquadFilter();
+    filter.type = 'lowpass'; filter.frequency.value = Number(toneControl.value);
+    filter.connect(gain); gain.connect(audio.destination);
+  }
+  async function startSound() {
+    if (starting || playing || !soundWanted) return;
     starting = true;
     try {
-      var Audio = window.AudioContext || window.webkitAudioContext;
-      if (!audio) { audio = new Audio(); gain = audio.createGain(); filter = audio.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = Number(toneControl.value); filter.connect(gain); gain.connect(audio.destination); }
+      prepareAudio();
       await audio.resume();
-      if (document.hidden) return;
+      if (document.hidden || !soundWanted) return;
       gain.gain.setValueAtTime(Number(volume.value) / 100 * 0.35, audio.currentTime);
       playing = true; step = 0; beat();
       sound.setAttribute('aria-pressed', 'true'); sound.textContent = 'Sound: on';
       status.textContent = 'Beat on. Mix it your way.';
     } catch (error) { stop(); status.textContent = 'Sound is unavailable in this browser.'; }
     finally { starting = false; }
+  }
+  sound.addEventListener('click', function () {
+    if (soundWanted) { stop(); return; }
+    soundWanted = true;
+    sound.setAttribute('aria-pressed', 'true');
+    sound.textContent = 'Sound: on · starting';
+    startSound();
   });
+  // Autoplay when allowed; otherwise wait for a real user gesture.
+  // Never let a gesture undo an explicit mute, including the mute button itself.
+  function unlockSound(event) {
+    if (event.target.closest && event.target.closest('#stage-sound')) return;
+    if (soundWanted && !playing) startSound();
+  }
+  document.addEventListener('pointerup', unlockSound);
+  document.addEventListener('click', unlockSound);
+  document.addEventListener('keydown', unlockSound);
+  try {
+    prepareAudio();
+    if (audio.state === 'running') startSound();
+  } catch (error) { stop(); status.textContent = 'Sound is unavailable in this browser.'; }
   document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); });
   window.addEventListener('pagehide', stop);
   document.addEventListener('keydown', function (e) {
