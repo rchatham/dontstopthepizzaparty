@@ -29,14 +29,15 @@
     }
     wall.classList.add("is-viz");
   }
-  if (wall && hero.getAttribute("data-lights") !== "off") {
+  if (wall) {
     build();
     window.addEventListener("resize", build);
     var start = performance.now();
     var last = -1;
     var tick = function (now) {
-      var beat = Math.floor((now - start) / BEAT);
-      if (beat !== last) {
+      var interval = (60000 / Number(hero.dataset.tempo || 124)) * 4;
+      var beat = Math.floor((now - start) / interval);
+      if (beat !== last && hero.dataset.motion !== "off" && hero.dataset.lights !== "off") {
         last = beat;
         var down = beat % 4 === 0;                 // the first beat of a bar hits harder
         cols.forEach(function (c, i) {
@@ -59,7 +60,7 @@
   if (!fine) return;
   var frame = 0;
   window.addEventListener("pointermove", function (e) {
-    if (frame) return;
+    if (frame || hero.dataset.motion === "off") return;
     frame = requestAnimationFrame(function () {
       frame = 0;
       hero.style.setProperty("--px", ((e.clientX / window.innerWidth) * 2 - 1).toFixed(3));

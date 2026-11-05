@@ -328,3 +328,30 @@ body {
   .dsp-lights { display: none; }
   .dsp-copy { translate: none; transition: none; }
 }
+
+/* Stage controls stay within reach without covering the title. */
+.dsp-stage { position: absolute; top: 18px; right: 18px; z-index: 10; display: flex; gap: 8px; align-items: flex-start; }
+.dsp-stage button, .dsp-controls summary { font: 700 13px/1.3 "Roboto Condensed", sans-serif; cursor: pointer; border: 2px solid var(--ink); border-radius: 22px; background: var(--cream); color: var(--ink); padding: 10px 14px; box-shadow: 3px 3px 0 var(--ink); }
+.dsp-stage button:focus-visible, .dsp-controls summary:focus-visible, .dsp-controls input:focus-visible, .dsp-controls select:focus-visible { outline: 3px solid #20c9e6; outline-offset: 3px; }
+.dsp-controls summary { list-style: none; }
+.dsp-controls summary::-webkit-details-marker { display: none; }
+.dsp-controls[open] summary { background: var(--yellow); }
+.dsp-controls__panel { position: absolute; top: 52px; right: 0; width: 260px; max-width: calc(100vw - 36px); max-height: calc(100svh - 100px); overflow-y: auto; box-sizing: border-box; padding: 20px; border: 2px solid var(--ink); border-radius: 18px; background: var(--cream); color: var(--ink); box-shadow: 5px 6px 0 var(--ink); text-align: left; }
+.dsp-controls__panel strong { display: block; margin-bottom: 16px; font-size: 18px; }
+.dsp-controls__panel label { display: block; margin: 12px 0; font-size: 14px; }
+.dsp-controls__panel select, .dsp-controls__panel input { display: block; width: 100%; margin-top: 6px; accent-color: #b20a68; }
+.dsp-controls__panel select { padding: 8px; font-size: 16px; color: #111; background: white; border: 1px solid #777; border-radius: 6px; }
+.dsp-controls__panel output { float: right; }
+.dsp-controls__panel button { width: 100%; }
+.dsp-stage-status { margin: 14px 0 0; font-size: 12px; line-height: 1.4; }
+.dsp-party-effects { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; }
+.dsp-confetti { position: absolute; font: 700 24px/1 sans-serif; text-shadow: 1px 1px #111; }
+[data-motion="off"] .dsp-doodles *, [data-motion="off"] .dsp-copy, [data-motion="off"] .dsp-copy * { animation-play-state: paused !important; }
+[data-motion="off"] .dsp-copy { translate: none; transition: none; }
+[data-lights="off"] .dsp-spots { display: none; }
+@media (max-width: 600px) {
+  .dsp-stage { top: 12px; right: 12px; gap: 6px; }
+  .dsp-stage button, .dsp-controls summary { padding: 10px; font-size: 12px; }
+  .dsp-hero { padding-top: 88px; }
+  .s1 { top: 65px; width: 52px; }
+}

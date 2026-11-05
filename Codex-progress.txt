@@ -1,0 +1,8 @@
+2026-11-04: Added interactive homepage stage controls (local preview, not published).
+- Complete: hero click / keyboard-accessible party button, bounded pizza confetti and grouped text bounce.
+- Complete: light presets, gentle/still motion, tempo, volume, opt-in synthesized beat.
+- Complete: reduced-motion-aware bursts, Escape/outside-click dismissal, audio stops when page is hidden.
+- Verified in Chrome: click emits 18 particles; light off hides spots; motion setting updates; audio toggles; tempo changes CSS beat; Escape closes panel.
+- Validation: node --check for both scripts and git diff --check passed.
+- Preview: http://127.0.0.1:3048/ (temporary static homepage rendering; Jekyll unavailable locally).
+- Remaining: publish only when requested.
