@@ -227,7 +227,7 @@ body {
   rotate: -9deg;
   translate: calc(var(--px) * 22px) calc(var(--py) * 16px);
   transition: translate 0.8s var(--spring);
-  font: 400 clamp(38px, 11vw, 112px)/1.15 "Mr Dafoe", cursive;
+  font: 400 clamp(38px, 11vw, 112px)/0.92 "Mr Dafoe", cursive;
   text-align: center;
   filter:
     drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
