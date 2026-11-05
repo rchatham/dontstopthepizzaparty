@@ -14,7 +14,7 @@
   --hi: #ffe73c;                /* "never" */
   --hi-edge: #111;              /* "never"'s outline and shadow */
   --accent: #111;               /* the pill's offset shadow */
-  --spot-a: 0.25;               /* how solid the spotlight is (0 = none, 1 = solid) */
+  --spot-a: 0.38;               /* how solid the tint is on the beat (0 = none, 1 = solid); it pulses down to ~45% of this between beats */
   --outline: #fffaf0;           /* halo round the logo and words, so they read on the pattern */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -56,6 +56,28 @@ body {
   transition: translate 0.8s var(--spring);
   animation: dsp-crawl 36s linear infinite;
 }
+/* ---- the visualizer: the wallpaper kicks on every beat and its colours spin;
+   home.js splits it into tile-wide columns that bounce like EQ bars ---- */
+.dsp-viz {
+  position: absolute;
+  inset: 0;
+  will-change: transform, filter;
+  animation:
+    dsp-kick var(--beat) cubic-bezier(0.2, 0.7, 0.3, 1) infinite,
+    dsp-hue calc(var(--beat) * 32) linear infinite;
+}
+@keyframes dsp-kick { 0% { transform: scale(1.04); } 60%, 100% { transform: scale(1); } }
+@keyframes dsp-hue  { from { filter: hue-rotate(0deg) saturate(1.15); } to { filter: hue-rotate(360deg) saturate(1.15); } }
+.dsp-wallpaper.is-viz { display: flex; background: none; }
+.viz-col {
+  flex: 0 0 156px;
+  height: 100%;
+  background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
+  transition: transform var(--fall, 0.4s) cubic-bezier(0.5, 0, 0.75, 0);
+}
+.viz-col.hit { transition: transform 70ms ease-out; }
+[data-lights="off"] .dsp-viz { animation: none; }
+
 @keyframes dsp-crawl {
   from { transform: translate(0, 0); }
   to   { transform: translate(156px, 198px); }   /* exactly one tile: seamless loop */
@@ -95,15 +117,20 @@ body {
 [data-lights="chase"] .t3 { animation-delay: calc(var(--beat) * -32 / 3); }
 
 /* pulse: each colour holds for a bar and throbs on every beat */
-[data-lights="pulse"] { --spot-a: 0.4; }
+/* every pattern: the tint swells on the beat and ebbs between */
+.dsp-spots { animation: dsp-throb var(--beat) ease-out infinite; }
+[data-lights="off"] .dsp-spots { animation: none; }
+
+[data-lights="pulse"] { --spot-a: 0.45; }
 [data-lights="pulse"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 12) step-end infinite; }
 [data-lights="pulse"] .t2 { animation-delay: calc(var(--beat) * -8); }
 [data-lights="pulse"] .t3 { animation-delay: calc(var(--beat) * -4); }
-[data-lights="pulse"] .dsp-spots { animation: dsp-throb var(--beat) ease-out infinite; }
+[data-lights="pulse"] .dsp-spots { animation-name: dsp-throb-deep; }
 
 @keyframes dsp-cut   { 0% { opacity: 1; } 33.333% { opacity: 0; } }
 @keyframes dsp-wash  { 0%, 100% { opacity: 1; } 33.333%, 66.667% { opacity: 0; } }
-@keyframes dsp-throb { 0% { opacity: 1; } 55%, 100% { opacity: 0.45; } }
+@keyframes dsp-throb      { 0% { opacity: 1; } 55%, 100% { opacity: 0.45; } }
+@keyframes dsp-throb-deep { 0% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
 @keyframes dsp-orbit {
   0%, 100% { transform: translate(-16%, -8%); }
   25%      { transform: translate(12%, -12%); }
@@ -302,7 +329,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill,
-  .dsp-spots, .dsp-spot { animation: none !important; transition: none; }
+  .dsp-spots, .dsp-spot, .dsp-viz { animation: none !important; transition: none; }
   .dsp-spot { opacity: 0 !important; transform: none !important; }
   .t1 { opacity: 1 !important; --sx: 46%; --sy: 44%; }
   .dsp-lights { display: none; }
