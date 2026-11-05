@@ -380,6 +380,6 @@ body {
   from { transform: translateY(calc(var(--motion, 1.5) * -5px)) rotate(-0.8deg); }
   to { transform: translateY(calc(var(--motion, 1.5) * 5px)) rotate(0.8deg); }
 }
-.dsp-lights, .dsp-spots { filter: hue-rotate(var(--light-hue, 0deg)) brightness(var(--light-intensity, 1)); transition: filter 1s; }
+.dsp-lights, .dsp-spots { filter: hue-rotate(var(--light-hue, 0deg)) opacity(var(--light-intensity, 0.7)); transition: filter 1s; }
 [data-motion="off"] .dsp-copy.has-entered { animation: none !important; transform: none; }
 .dsp-controls__panel { scrollbar-width: thin; }

@@ -40,7 +40,7 @@
   }, 6000);
   lightSpeed.addEventListener('input', updateLightSpeed);
   intensity.addEventListener('input', function () {
-    hero.style.setProperty('--light-intensity', Number(intensity.value) / 70);
+    hero.style.setProperty('--light-intensity', Number(intensity.value) / 100);
   });
   color.addEventListener('change', function () { hero.style.setProperty('--light-hue', color.value + 'deg'); });
   if (reduced.matches) motion.value = '0';
