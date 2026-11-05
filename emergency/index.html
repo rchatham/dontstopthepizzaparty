@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#17141a">
   <link href="/files/pizza-icon.png" rel="shortcut icon" type="image/png">
-  <link href="emergency.css?v=20261103a" rel="stylesheet" type="text/css">
+  <link href="emergency.css?v=20261105a" rel="stylesheet" type="text/css">
 </head>
 <body>
   <main class="gb" aria-label="Pizza Emergency at the Techno, a retro game">
@@ -30,9 +30,28 @@
     </div>
 
     <p class="gb__keys">Arrows / WASD to move &middot; <kbd>Z</kbd> / <kbd>Space</kbd> = A &middot; <kbd>X</kbd> = B &middot; <kbd>Enter</kbd> = Start &middot; <kbd>M</kbd> = sound</p>
-    <p class="gb__exit"><a href="https://pizzaandtechno.com/">&larr; pizzaandtechno.com</a></p>
+    <p class="gb__exit">
+      <button class="gb__ticket" type="button" data-bogo-open hidden>&#127903; Your BOGO ticket</button>
+      <a href="https://pizzaandtechno.com/">&larr; pizzaandtechno.com</a>
+    </p>
   </main>
-  <script src="party.js?v=20261030a"></script>
-  <script src="game.js?v=20261103a"></script>
+
+  <!-- the BOGO ticket from behind the poster at the Techno (see party.js) -->
+  <div class="bogo" data-bogo hidden role="dialog" aria-modal="true" aria-labelledby="bogo-title">
+    <div class="bogo__card">
+      <div class="bogo__stub" aria-hidden="true"><b>2</b><span>for</span><b>1</b></div>
+      <div class="bogo__body">
+        <p class="bogo__kicker">You found it</p>
+        <h2 id="bogo-title">BOGO ticket</h2>
+        <p class="bogo__what">Buy one ticket to the next Pizza+Techno, get one free.</p>
+        <p class="bogo__code"><code data-bogo-code></code><button type="button" data-bogo-copy>Copy</button></p>
+        <a class="bogo__go" data-bogo-link href="https://pizzaandtechno.com/" target="_blank" rel="noopener">Tickets drop at pizzaandtechno.com</a>
+        <p class="bogo__note" data-bogo-note></p>
+        <button class="bogo__close" type="button" data-bogo-close>Back to the party</button>
+      </div>
+    </div>
+  </div>
+  <script src="party.js?v=20261105a"></script>
+  <script src="game.js?v=20261105a"></script>
 </body>
 </html>

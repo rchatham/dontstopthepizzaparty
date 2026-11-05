@@ -4,7 +4,7 @@
   "description": "Local browser test for the dontstopthepizzaparty.com homepage",
   "scripts": {
     "build": "bundle exec jekyll build",
-    "test": "node test/hero.test.js"
+    "test": "node test/hero.test.js && node test/bogo.test.js"
   },
   "devDependencies": {
     "playwright": "^1.48.0"
