@@ -6,3 +6,4 @@
 - Validation: node --check for both scripts and git diff --check passed.
 - Preview: http://127.0.0.1:3048/ (temporary static homepage rendering; Jekyll unavailable locally).
 - Remaining: publish only when requested.
+2026-11-04 follow-up: Unified entrance and click animation on the shared title/subtitle container; removed child entrance animations. Click effects now use CSS animations with bounded timed cleanup and a stronger 850ms group bounce. Light sweeps/fades are 4x faster; wallpaper unchanged. Browser verified 18 click particles, shared party-hit animation, no child animation, and 3.872s beam sweep. Cache versions refreshed.

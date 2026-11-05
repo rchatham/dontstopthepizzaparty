@@ -10,8 +10,12 @@
   var sound = document.getElementById('stage-sound');
   var status = hero.querySelector('.dsp-stage-status');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var audio, gain, timer, playing = false, starting = false, step = 0, lastDrop = 0;
-  var bounce;
+  var audio, gain, timer, playing = false, starting = false, step = 0, lastDrop = -Infinity;
+  var bounceTimer;
+  var textGroup = hero.querySelector('.dsp-copy');
+  textGroup.addEventListener('animationend', function (event) {
+    if (event.target === textGroup) textGroup.classList.add('has-entered');
+  });
   lights.value = hero.dataset.lights;
   motion.value = reduced.matches ? 'off' : 'gentle';
   hero.dataset.motion = motion.value;
@@ -80,8 +84,12 @@
     var still = reduced.matches || hero.dataset.motion === 'off';
     var copy = hero.querySelector('.dsp-copy');
     if (!still) {
-      if (bounce) bounce.cancel();
-      bounce = copy.animate([{transform:'scale(1)'},{transform:'scale(1.045) rotate(-2deg)'},{transform:'scale(1)'}], {duration:600, easing:'ease-out'});
+      copy.classList.add('has-entered');
+      clearTimeout(bounceTimer);
+      copy.classList.remove('party-hit');
+      void copy.offsetWidth;
+      copy.classList.add('party-hit');
+      bounceTimer = setTimeout(function () { copy.classList.remove('party-hit'); }, 850);
     }
     var effects = hero.querySelector('.dsp-party-effects');
     var rect = hero.getBoundingClientRect();
@@ -92,11 +100,11 @@
       bit.style.color = ['#ffe73c','#ff2d9b','#20c9e6','#fffaf0'][i % 4];
       effects.appendChild(bit);
       var angle = Math.random() * Math.PI * 2, distance = 70 + Math.random() * 130;
-      var animation = bit.animate(still ? [{opacity:1},{opacity:0}] : [
-        {transform:'translate(-50%, -50%) scale(0.4)',opacity:1},
-        {transform:'translate(' + Math.cos(angle)*distance + 'px,' + (Math.sin(angle)*distance+60) + 'px) rotate(' + (Math.random()*240-120) + 'deg)',opacity:0}
-      ], {duration: still ? 500 : 1100, easing:'ease-out'});
-      animation.onfinish = function (node) { return function () { node.remove(); }; }(bit);
+      bit.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+      bit.style.setProperty('--dy', (Math.sin(angle) * distance + 60) + 'px');
+      bit.style.setProperty('--spin', (Math.random() * 240 - 120) + 'deg');
+      if (still) bit.classList.add('is-still');
+      setTimeout(function (node) { return function () { node.remove(); }; }(bit), 1600);
     }
     if (playing) tone(520, 130, 0.2, 0.15, 'sine');
   }
