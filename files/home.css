@@ -50,7 +50,7 @@ body {
 .dsp-doodles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .dsp-wallpaper {
   position: absolute;
-  inset: -198px -156px;              /* one tile of slack each way, so the crawl never shows an edge */
+  inset: -396px -312px;              /* two tiles cover crawl, bounce, and pointer movement */
   background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
   translate: calc(var(--px) * -4px) calc(var(--py) * -4px);
   transition: translate 0.8s var(--spring);
@@ -61,6 +61,7 @@ body {
 .dsp-viz {
   position: absolute;
   inset: 0;
+  background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
   will-change: transform, filter;
   animation:
     dsp-kick calc(var(--beat) * 4) cubic-bezier(0.2, 0.7, 0.3, 1) infinite,
@@ -68,7 +69,7 @@ body {
 }
 @keyframes dsp-kick { 0% { transform: scale(1.008); } 60%, 100% { transform: scale(1); } }
 @keyframes dsp-hue  { from { filter: hue-rotate(0deg) saturate(1.15); } to { filter: hue-rotate(360deg) saturate(1.15); } }
-.dsp-wallpaper.is-viz { display: flex; background: none; }
+.dsp-wallpaper.is-viz { display: flex; }
 .viz-col {
   flex: 0 0 156px;
   height: 100%;
