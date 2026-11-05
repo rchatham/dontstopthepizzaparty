@@ -309,7 +309,6 @@ body {
   box-sizing: border-box;
   padding: 2px 8px;
   border-radius: 999px;
-  background: rgba(var(--spot-rgb), 0.9);
   margin: 0;
   color: var(--words);
   opacity: 0.85;
