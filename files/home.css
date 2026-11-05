@@ -14,6 +14,8 @@
   --hi: #ffe73c;                /* "never" */
   --hi-edge: #111;              /* "never"'s outline and shadow */
   --accent: #111;               /* the pill's offset shadow */
+  --spot-a: 0.25;               /* how solid the spotlight is (0 = none, 1 = solid) */
+  --outline: #fffaf0;           /* halo round the logo and words, so they read on the pattern */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -63,7 +65,10 @@ body {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 46% 44% at 50% 47%,
-    var(--spot) 0%, var(--spot) 52%, rgba(var(--spot-rgb), 0.85) 70%, rgba(var(--spot-rgb), 0) 100%);
+    rgba(var(--spot-rgb), var(--spot-a)) 0%,
+    rgba(var(--spot-rgb), var(--spot-a)) 50%,
+    rgba(var(--spot-rgb), calc(var(--spot-a) * 0.6)) 72%,
+    rgba(var(--spot-rgb), 0) 100%);
 }
 .dsp-sticker {
   position: absolute;
@@ -98,7 +103,11 @@ body {
   margin: 0;
   background: none;
   line-height: 0;
-  filter: drop-shadow(3px 4px 0 var(--logo-edge));
+  /* a 2px halo all round, then the offset edge */
+  filter:
+    drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
+    drop-shadow(0 2px 0 var(--outline)) drop-shadow(0 -2px 0 var(--outline))
+    drop-shadow(4px 5px 0 var(--logo-edge));
   animation: dsp-pop 0.9s var(--spring) 0.15s both;
 }
 .dsp-logo img {
@@ -127,7 +136,7 @@ body {
   letter-spacing: -0.01em;
   text-transform: lowercase;
 }
-.dsp-tag span { display: block; font: inherit; animation: dsp-rise 0.7s var(--spring) both; }
+.dsp-tag span { display: block; font: inherit; -webkit-text-stroke: 5px var(--outline); paint-order: stroke fill; animation: dsp-rise 0.7s var(--spring) both; }
 .dsp-tag span:nth-child(1) { animation-delay: 0.75s; translate: -0.6em 0; }
 .dsp-tag span:nth-child(2) { animation-delay: 0.9s; font-size: 1.25em; color: var(--hi); -webkit-text-stroke: 1.5px var(--hi-edge); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--hi-edge); }
 .dsp-tag span:nth-child(3) { animation-delay: 1.05s; translate: 0.7em 0; }
