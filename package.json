@@ -1,0 +1,12 @@
+{
+  "name": "dontstopthepizzaparty",
+  "private": true,
+  "description": "Local browser test for the dontstopthepizzaparty.com homepage",
+  "scripts": {
+    "build": "bundle exec jekyll build",
+    "test": "node test/hero.test.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}

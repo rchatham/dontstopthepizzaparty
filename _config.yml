@@ -31,6 +31,10 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - node_modules
+  - test
 
 # The old site (photos, The Slice blog, the archive) is kept for nostalgia:
 # those pages still show the old menu, the homepage doesn't. Type
