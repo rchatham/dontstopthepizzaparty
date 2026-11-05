@@ -16,7 +16,7 @@
   var BEAT = (60000 / 124) * 4;
   var cols = [];
   function build() {
-    var n = Math.ceil(wall.offsetWidth / 156) + 1;
+    var n = Math.ceil(wall.offsetWidth / 156) + 2;
     if (n === cols.length) return;
     wall.textContent = "";
     cols = [];
@@ -32,6 +32,9 @@
   if (wall) {
     build();
     window.addEventListener("resize", build);
+    window.addEventListener("load", build);
+    // Safari can finish sizing the wallpaper after the initial script runs.
+    if ("ResizeObserver" in window) new ResizeObserver(build).observe(wall);
     var start = performance.now();
     var last = -1;
     var tick = function (now) {
