@@ -14,7 +14,7 @@
   --hi: #ffe73c;                /* "never" */
   --hi-edge: #111;              /* "never"'s outline and shadow */
   --accent: #111;               /* the pill's offset shadow */
-  --spot-a: 0.38;               /* how solid the tint is on the beat (0 = none, 1 = solid); it pulses down to ~45% of this between beats */
+  --spot-a: 0.33;               /* how solid the tint is on the beat (0 = none, 1 = solid); it pulses down to ~45% of this between beats */
   --outline: #fffaf0;           /* halo round the logo and words, so they read on the pattern */
   --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -121,7 +121,7 @@ body {
 .dsp-spots { animation: dsp-throb var(--beat) ease-out infinite; }
 [data-lights="off"] .dsp-spots { animation: none; }
 
-[data-lights="pulse"] { --spot-a: 0.45; }
+[data-lights="pulse"] { --spot-a: 0.40; }
 [data-lights="pulse"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 12) step-end infinite; }
 [data-lights="pulse"] .t2 { animation-delay: calc(var(--beat) * -8); }
 [data-lights="pulse"] .t3 { animation-delay: calc(var(--beat) * -4); }
