@@ -217,36 +217,23 @@ body {
   flex-direction: column;
   align-items: center;
 }
-/* the logo is painted through its own shape (a mask), so it can be any colour;
-   the invisible img keeps its size and its alt text */
+/* Keep each phrase on one line at every viewport width. */
 .dsp-logo {
   position: relative;
   margin: 0;
+  padding: 0 0.12em;
   background: none;
-  line-height: 0;
-  /* a 2px halo all round, then the offset edge */
+  color: var(--logo);
+  font: 400 clamp(38px, 11vw, 112px)/1.15 "Mr Dafoe", cursive;
+  text-align: center;
   filter:
     drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
     drop-shadow(0 2px 0 var(--outline)) drop-shadow(0 -2px 0 var(--outline))
     drop-shadow(4px 5px 0 var(--logo-edge));
   animation: dsp-pop 0.9s var(--spring) 0.15s both;
 }
-.dsp-logo img {
-  display: block;
-  width: auto;
-  height: min(48vh, 420px);
-  max-width: 70vw;
-  object-fit: contain;
-  opacity: 0;
-}
-.dsp-logo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--logo);
-  -webkit-mask: url(/files/dontstop.png) center / contain no-repeat;
-  mask: url(/files/dontstop.png) center / contain no-repeat;
-}
+.dsp-logo span { display: block; white-space: nowrap; }
+.dsp-logo .dsp-logo__the { font-size: 0.48em; line-height: 1; }
 .dsp-tag {
   display: flex;
   flex-direction: column;
@@ -322,7 +309,6 @@ body {
 .dsp-credits a { color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
 
 @media (min-width: 900px) {
-  .dsp-logo img { height: min(56vh, 520px); }
   .s1 { top: 40px; left: 48px; }
   .s2 { bottom: 64px; right: 64px; }
 }
