@@ -350,6 +350,7 @@
   addEventListener("keydown", (e) => {
     const k = KEYS[e.code];
     if (!k || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (document.querySelector("[data-bogo]:not([hidden])")) return; // the ticket card has the keyboard
     e.preventDefault();
     if (!e.repeat) press(k);
   });
@@ -716,7 +717,10 @@
         for (let j = 3; j < 16; j += 5) R(x, y + j, 16, 1, C.ink2);
         R(x + ((ty % 2) ? 4 : 11), y, 1, 16, C.ink2);
         if (ch === "n") { R(x, y + 12, 16, 1, club.lights ? C.coral : C.dcoral); }
-        if (ch === "p") { R(x + 3, y + 2, 10, 12, C.yellow); tri(x + 5, y + 4, 6, 7, C.orange); R(x + 7, y + 7, 2, 1, C.red); R(x + 4, y + 12, 8, 1, C.ink); }
+        if (ch === "p") {
+          R(x + 3, y + 2, 10, 12, C.yellow); tri(x + 5, y + 4, 6, 7, C.orange); R(x + 7, y + 7, 2, 1, C.red); R(x + 4, y + 12, 8, 1, C.ink);
+          if (bogo.code && !bogo.found) { R(x + 12, y + 12, 3, 3, C.cream); R(x + 13, y + 13, 1, 1, C.coral); } // a corner of something
+        }
         break;
       case "b":
         R(x, y, 16, 16, C.dbrown);
@@ -794,8 +798,113 @@
       if (who.id !== "promo") talked.add(who.id);
       who.talking = false;
       if (!emergency) who.dir = before;
-    } else if (LOOK[ch]) await say(LOOK[ch]);
+    } else if (ch === "p") await lookAtPoster();
+    else if (LOOK[ch]) await say(LOOK[ch]);
     G.busy = false;
+  }
+
+  // ---------------------------------------------------------------- the BOGO ticket behind the poster
+  // party.js sets window.BOGO = { code, url }. The code is shown in the game and
+  // on a real HTML card (so Copy and the ticket link work on every browser).
+  const bogo = (() => {
+    const cfg = window.BOGO || {};
+    const code = String(cfg.code || "").toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 16);
+    const party = window.NEXT_PARTY || {};
+    const url = cfg.url || party.url || null;
+    let found = false;
+    try { found = !!code && localStorage.getItem("pt-emergency-bogo") === code; } catch (e) { /* ignore */ }
+    return { code, url, found };
+  })();
+  const card = document.querySelector("[data-bogo]");
+  const chip = document.querySelector("[data-bogo-open]");
+  let cardClosed = null;
+  const cardOpen = () => !!card && !card.hidden;
+  function openCard() {
+    if (!card) return Promise.resolve();
+    card.querySelector("[data-bogo-code]").textContent = bogo.code;
+    const link = card.querySelector("[data-bogo-link]");
+    if (bogo.url) {
+      link.href = bogo.url + (bogo.url.includes("?") ? "&" : "?") + "discount=" + encodeURIComponent(bogo.code);
+      link.textContent = "Get 2 tickets, pay for 1";
+      card.querySelector("[data-bogo-note]").textContent = "The code is applied at checkout. If it isn't, paste it in.";
+    } else {
+      link.href = "https://pizzaandtechno.com/";
+      link.textContent = "Tickets drop at pizzaandtechno.com";
+      card.querySelector("[data-bogo-note]").textContent = "Keep the code: enter it at checkout when tickets go on sale.";
+    }
+    card.hidden = false;
+    card.querySelector("[data-bogo-copy]").focus();
+    return new Promise((res) => { cardClosed = res; });
+  }
+  function closeCard() {
+    if (!cardOpen()) return;
+    card.hidden = true;
+    const copy = card.querySelector("[data-bogo-copy]");
+    copy.textContent = "Copy";
+    if (cardClosed) { const r = cardClosed; cardClosed = null; r(); }
+  }
+  if (card) {
+    card.querySelector("[data-bogo-close]").addEventListener("click", closeCard);
+    card.addEventListener("click", (e) => { if (e.target === card) closeCard(); });
+    card.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.preventDefault(); closeCard(); } });
+    const copy = card.querySelector("[data-bogo-copy]");
+    copy.addEventListener("click", () => {
+      const codeEl = card.querySelector("[data-bogo-code]");
+      const selectIt = () => { const r = document.createRange(); r.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(bogo.code).then(() => { copy.textContent = "Copied!"; }, () => { selectIt(); copy.textContent = "Selected: copy it"; });
+      } else { selectIt(); copy.textContent = "Selected: copy it"; }
+    });
+  }
+  if (chip) {
+    chip.hidden = !(bogo.code && bogo.found);
+    chip.addEventListener("click", () => { if (!cardOpen()) openCard(); });
+  }
+
+  function ticketUI() {
+    return new Promise((res) => {
+      const t0 = G.t;
+      G.ui = {
+        kind: "ticket", res,
+        update() { if (G.t - t0 > 20 && (pressed.a || pressed.b || pressed.start)) { sfx("select"); closeUI(); } },
+        draw() {
+          g.globalAlpha = 0.65; R(0, 0, W, H, C.out); g.globalAlpha = 1;
+          const x = 4, y = 26, w = W - 8, h = 84, stub = 32;
+          R(x, y, w, h, C.dcoral); R(x + 1, y + 1, w - 2, h - 2, C.cream);
+          circ(x, y + h / 2, 4, C.out); circ(x + w, y + h / 2, 4, C.out);   // ticket notches
+          for (let i = y + 4; i < y + h - 4; i += 4) R(x + stub, i, 1, 2, C.dcoral); // perforation
+          textC("2", y + 10, C.coral, 3, x + stub / 2);
+          textC("FOR", y + 36, C.ink, 1, x + stub / 2);
+          textC("1", y + 48, C.coral, 3, x + stub / 2);
+          const cx = x + stub + (w - stub) / 2;
+          textC("BOGO TICKET", y + 7, C.dcoral, 1, cx);
+          textC("BUY 1 GET 1 FREE", y + 19, C.ink, 1, cx);
+          textC("NEXT PIZZA+TECHNO", y + 29, C.ink, 1, cx);
+          const cw = textW(bogo.code) + 10;
+          R(cx - cw / 2, y + 42, cw, 15, C.ink);
+          textC(bogo.code, y + 46, C.yellow, 1, cx);
+          textC("USE AT CHECKOUT", y + 63, C.gray, 1, cx);
+          if (Math.floor(G.t / 24) % 2) textC("A: TAKE IT", y + h + 8, C.yellow);
+        }
+      };
+    });
+  }
+  async function lookAtPoster() {
+    await say(LOOK.p);
+    if (!bogo.code) return;
+    if (bogo.found) {
+      await say("Your BOGO ticket came from behind here. Code: " + bogo.code + ".");
+      return;
+    }
+    await say("Wait. Something is tucked behind the poster...");
+    sfx("good");
+    await ticketUI();
+    bogo.found = true;
+    try { localStorage.setItem("pt-emergency-bogo", bogo.code); } catch (e) { /* ignore */ }
+    if (chip) chip.hidden = false;
+    await say("A BOGO ticket! Buy one, get one free at the next PIZZA+TECHNO.");
+    await openCard();
+    await say("You pocket the ticket. Nobody saw a thing.");
   }
   const TALK = {
     async bouncer(n, e) {
@@ -1438,7 +1547,7 @@
   fit();
 
   // ?debug exposes read-only state so automated playthroughs can wait on the story
-  if (/[?&]debug\b/.test(location.search)) window.__emergency = { G, hero, get ui() { return G.ui && G.ui.kind; } };
+  if (/[?&]debug\b/.test(location.search)) window.__emergency = { G, hero, get npcs() { return npcs; }, get ui() { return G.ui && G.ui.kind; } };
 
   requestAnimationFrame(frame);
   main();

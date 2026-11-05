@@ -8,3 +8,15 @@
    };
 */
 window.NEXT_PARTY = null;
+
+/* The BOGO easter egg. Look at the pizza poster in the Techno's back-right
+   corner and a buy-one-get-one ticket for the next Pizza+Techno is tucked
+   behind it. The game shows the code with a Copy button and a ticket link.
+
+   code: a REAL promo code. Create the same code on the ticket page first, or
+         players get a code that does nothing. Letters, digits and - only.
+   url:  the ticket page. The game adds ?discount=CODE so Eventbrite applies the
+         code at checkout. Leave it null to fall back on NEXT_PARTY.url; with
+         neither, the ticket says tickets drop at pizzaandtechno.com.
+   Set window.BOGO = null to switch the egg off. */
+window.BOGO = { code: "BOGOSLICE", url: null };
