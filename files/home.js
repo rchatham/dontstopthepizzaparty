@@ -42,7 +42,7 @@
         var down = beat % 4 === 0;                 // the first beat of a bar hits harder
         cols.forEach(function (c, i) {
           var bass = 1 - (i / cols.length) * 0.6;  // left side is the bass
-          var amp = (down ? 12 : 8) * bass * (0.35 + Math.random() * 0.65);
+          var amp = (Number(document.getElementById("stage-motion").value) / 100) * (down ? 12 : 8) * bass * (0.35 + Math.random() * 0.65);
           c.classList.add("hit");
           c.style.transform = "translateY(" + (-amp).toFixed(1) + "px)";
         });

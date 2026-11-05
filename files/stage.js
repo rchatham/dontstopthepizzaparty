@@ -10,22 +10,56 @@
   var sound = document.getElementById('stage-sound');
   var status = hero.querySelector('.dsp-stage-status');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var audio, gain, timer, playing = false, starting = false, step = 0, lastDrop = -Infinity;
+  var audio, gain, filter, timer, playing = false, starting = false, step = 0, lastDrop = -Infinity;
   var bounceTimer;
   var textGroup = hero.querySelector('.dsp-copy');
   textGroup.addEventListener('animationend', function (event) {
     if (event.target === textGroup) textGroup.classList.add('has-entered');
   });
-  lights.value = hero.dataset.lights;
-  motion.value = reduced.matches ? 'off' : 'gentle';
-  hero.dataset.motion = motion.value;
-  lights.addEventListener('change', function () { hero.dataset.lights = lights.value; });
-  motion.addEventListener('change', function () {
-    hero.dataset.motion = motion.value;
-    hero.style.setProperty('--px', 0); hero.style.setProperty('--py', 0);
+  lights.value = /[?&]lights=/.test(location.search) ? hero.dataset.lights : (hero.dataset.lightShow || hero.dataset.lights);
+  var lightSpeed = document.getElementById('stage-light-speed');
+  var intensity = document.getElementById('stage-light-intensity');
+  var color = document.getElementById('stage-color');
+  var groove = document.getElementById('stage-groove');
+  var kick = document.getElementById('stage-kick');
+  var bass = document.getElementById('stage-bass');
+  var hats = document.getElementById('stage-hats');
+  var toneControl = document.getElementById('stage-tone');
+  var shows = ['fade', 'chase', 'pulse', 'chase'], showIndex = 0;
+  function updateLightSpeed() {
+    hero.style.setProperty('--light-beat', (60 / Number(tempo.value) / (Number(lightSpeed.value) / 100)) + 's');
+  }
+  function applyLights() {
+    hero.dataset.lights = lights.value === 'auto' ? shows[showIndex % shows.length] : lights.value;
+  }
+  lights.addEventListener('change', applyLights);
+  setInterval(function () {
+    if (document.hidden || lights.value !== 'auto' || reduced.matches) return;
+    showIndex++; applyLights();
+    hero.style.setProperty('--light-hue', (Number(color.value) + showIndex * 35) % 360 + 'deg');
+  }, 6000);
+  lightSpeed.addEventListener('input', updateLightSpeed);
+  intensity.addEventListener('input', function () {
+    hero.style.setProperty('--light-intensity', Number(intensity.value) / 70);
+  });
+  color.addEventListener('change', function () { hero.style.setProperty('--light-hue', color.value + 'deg'); });
+  if (reduced.matches) motion.value = '0';
+  function updateMotion() {
+    var amount = reduced.matches ? 0 : Number(motion.value) / 100;
+    hero.dataset.motion = amount === 0 ? 'off' : 'gentle';
+    hero.style.setProperty('--motion', amount);
+    document.getElementById('stage-motion-value').textContent = Math.round(amount * 100) + '%';
+    if (!amount) { hero.style.setProperty('--px', 0); hero.style.setProperty('--py', 0); }
+  }
+  motion.addEventListener('input', updateMotion);
+  reduced.addEventListener('change', updateMotion);
+  updateMotion(); applyLights(); updateLightSpeed();
+  toneControl.addEventListener('input', function () {
+    if (filter) filter.frequency.setTargetAtTime(Number(toneControl.value), audio.currentTime, 0.03);
   });
   tempo.addEventListener('input', function () {
     hero.dataset.tempo = tempo.value;
+    updateLightSpeed();
     hero.style.setProperty('--beat', (60 / Number(tempo.value)) + 's');
     document.getElementById('stage-bpm').textContent = tempo.value + ' BPM';
   });
@@ -38,14 +72,20 @@
     osc.frequency.exponentialRampToValueAtTime(endFreq, now + duration);
     envelope.gain.setValueAtTime(level, now);
     envelope.gain.exponentialRampToValueAtTime(0.001, now + duration);
-    osc.connect(envelope); envelope.connect(gain); osc.start(now); osc.stop(now + duration);
+    osc.connect(envelope); envelope.connect(filter); osc.start(now); osc.stop(now + duration);
     osc.onended = function () { osc.disconnect(); envelope.disconnect(); };
   }
   function beat() {
     if (!playing) return;
-    if (step % 2 === 0) tone(130, 42, 0.2, 0.8, 'sine');
-    else tone(1800, 650, 0.035, 0.07, 'triangle');
-    if (step % 4 === 2) tone(180, 75, 0.09, 0.12, 'triangle');
+    var pattern = groove.value;
+    var hit = pattern === 'broken' ? [0, 3, 6].indexOf(step % 8) !== -1 : step % 2 === 0;
+    if (hit && Number(kick.value)) tone(pattern === 'techno' ? 165 : 130, 42, 0.22, Number(kick.value) / 100, 'sine');
+    if ((step % 2 || pattern === 'techno') && Number(hats.value)) tone(2200, 650, 0.035, Number(hats.value) / 100 * 0.14, 'triangle');
+    if (step % 4 === 2 && Number(hats.value)) tone(180, 75, 0.09, Number(hats.value) / 100 * 0.2, 'triangle');
+    if (Number(bass.value) && (step % 2 || pattern === 'broken')) {
+      var note = [55, 55, 65.41, 49][Math.floor(step / 2) % 4];
+      tone(note, note, 0.18, Number(bass.value) / 100 * 0.3, pattern === 'techno' ? 'sawtooth' : 'triangle');
+    }
     step++;
     timer = setTimeout(beat, 30000 / Number(tempo.value));
   }
@@ -60,13 +100,13 @@
     starting = true;
     try {
       var Audio = window.AudioContext || window.webkitAudioContext;
-      if (!audio) { audio = new Audio(); gain = audio.createGain(); gain.connect(audio.destination); }
+      if (!audio) { audio = new Audio(); gain = audio.createGain(); filter = audio.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = Number(toneControl.value); filter.connect(gain); gain.connect(audio.destination); }
       await audio.resume();
       if (document.hidden) return;
       gain.gain.setValueAtTime(Number(volume.value) / 100 * 0.35, audio.currentTime);
       playing = true; step = 0; beat();
       sound.setAttribute('aria-pressed', 'true'); sound.textContent = 'Sound: on';
-      status.textContent = 'House beat on. Make it yours.';
+      status.textContent = 'Beat on. Mix it your way.';
     } catch (error) { stop(); status.textContent = 'Sound is unavailable in this browser.'; }
     finally { starting = false; }
   });
