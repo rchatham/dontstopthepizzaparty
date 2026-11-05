@@ -9,10 +9,10 @@ no_footer: true
    sweeping beams, blinking lights), a logo that pops in, a tilted stacked tagline, and the secret
    word box as a fat pill. data-lights picks the pattern: strobe, fade, chase or pulse
    (try ?lights=fade). The old site lives on behind the word "nostalgia". {% endcomment %}
-<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/files/home.css?v=20261105c">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,800&family=Mr+Dafoe&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/files/home.css?v=20261105stage5">
 
-<main class="dsp-hero" data-lights="strobe">
+<main class="dsp-hero" data-lights="fade" data-light-show="auto">
   <div class="dsp-doodles" aria-hidden="true">
     <div class="dsp-viz"><div class="dsp-wallpaper"></div></div>
     <div class="dsp-spots">
@@ -28,7 +28,7 @@ no_footer: true
   </div>
 
   <div class="dsp-copy">
-    <h1 class="dsp-logo"><img src="/files/dontstop.png" width="481" height="796" alt="Don't Stop the Pizza Party"></h1>
+    <h1 class="dsp-logo"><span>Don’t Stop</span><span class="dsp-logo__the">~ the ~</span><span>Pizza Party</span></h1>
     <p class="dsp-tag"><span>the party</span><span>never</span><span>stops</span></p>
   </div>
 
@@ -39,7 +39,37 @@ no_footer: true
            onkeyup="navigateForInput(this.value)">
   </label>
 
-  <p class="dsp-credits">created by <a href="http://twitter.com/reidamandweep">reidcotta</a> · designed by <a href="http://twitter.com/willdjthrill">dj willaa</a> · with help from <a href="http://twitter.com/Alex_Chatham">alexdacat</a> · #pizzasquad</p>
+  <div class="dsp-party-effects" aria-hidden="true"></div>
+  <div class="dsp-stage">
+    <button type="button" class="dsp-party-button">🍕 Drop the pizza</button>
+    <details class="dsp-controls">
+      <summary>🎛 Stage controls</summary>
+      <div class="dsp-controls__panel">
+        <strong>Your party. Your rules.</strong>
+        <label>Lights <select id="stage-lights">
+          <option value="auto">Auto party mix</option><option value="fade">Fade</option><option value="pulse">Pulse</option>
+          <option value="chase">Chase</option><option value="strobe">Strobe</option><option value="off">Off</option>
+        </select></label>
+        <label for="stage-motion">Motion / mouse tracking <output id="stage-motion-value">150%</output><input id="stage-motion" type="range" min="0" max="300" step="10" value="150"></label>
+        <label>Light speed <input id="stage-light-speed" type="range" min="50" max="200" value="100"></label>
+        <label>Light intensity <input id="stage-light-intensity" type="range" min="0" max="100" value="70"></label>
+        <label>Light color <select id="stage-color"><option value="0">Candy</option><option value="90">Electric</option><option value="210">Sunset</option></select></label>
+        <label for="stage-tempo">Tempo <output id="stage-bpm">124 BPM</output><input id="stage-tempo" type="range" min="80" max="150" value="124"></label>
+        <label>Groove <select id="stage-groove"><option value="house">House</option><option value="techno">Techno</option><option value="broken">Broken beat</option></select></label>
+        <label>Kick <input id="stage-kick" type="range" min="0" max="100" value="80"></label>
+        <label>Bass <input id="stage-bass" type="range" min="0" max="100" value="40"></label>
+        <label>Percussion <input id="stage-hats" type="range" min="0" max="100" value="50"></label>
+        <label>Tone · dark to bright <input id="stage-tone" type="range" min="200" max="8000" value="4000"></label>
+        <label>Master volume <input id="stage-volume" type="range" min="0" max="100" value="25"></label>
+        <button type="button" id="stage-sound" aria-pressed="false">Sound: off</button>
+        <p class="dsp-stage-status" role="status">Tap the title for a little party.</p>
+      </div>
+    </details>
+  </div>
+
+  <p class="dsp-credits">created by <a href="http://twitter.com/reidamandweep">reidcotta</a> · designed by <a href="http://twitter.com/willdjthrill">dj willaa</a> · #pizzasquad</p>
 </main>
 
-<script src="/files/home.js?v=20261105c" defer></script>
+<script src="/files/home.js?v=20261105stage5" defer></script>
+
+<script src="/files/stage.js?v=20261105stage5" defer></script>

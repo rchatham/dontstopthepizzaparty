@@ -1,7 +1,7 @@
 /* Homepage hero.
    - ?lights=strobe|fade|chase|pulse|off picks the light show.
    - The wallpaper is split into tile-wide columns that bounce like EQ bars on
-     every beat (124 bpm, the same --beat the CSS uses), bass side hardest.
+     every four beats, with a gentle lift on the bass side.
    - Desktop: the wallpaper and stickers lean away from the mouse. */
 (function () {
   var hero = document.querySelector(".dsp-hero");
@@ -13,7 +13,7 @@
 
   // ---- the pizza visualizer ----
   var wall = hero.querySelector(".dsp-wallpaper");
-  var BEAT = 60000 / 124;
+  var BEAT = (60000 / 124) * 4;
   var cols = [];
   function build() {
     var n = Math.ceil(wall.offsetWidth / 156) + 1;
@@ -29,25 +29,26 @@
     }
     wall.classList.add("is-viz");
   }
-  if (wall && hero.getAttribute("data-lights") !== "off") {
+  if (wall) {
     build();
     window.addEventListener("resize", build);
     var start = performance.now();
     var last = -1;
     var tick = function (now) {
-      var beat = Math.floor((now - start) / BEAT);
-      if (beat !== last) {
+      var interval = (60000 / Number(hero.dataset.tempo || 124)) * 4;
+      var beat = Math.floor((now - start) / interval);
+      if (beat !== last && hero.dataset.motion !== "off" && hero.dataset.lights !== "off") {
         last = beat;
         var down = beat % 4 === 0;                 // the first beat of a bar hits harder
         cols.forEach(function (c, i) {
           var bass = 1 - (i / cols.length) * 0.6;  // left side is the bass
-          var amp = (down ? 70 : 46) * bass * (0.35 + Math.random() * 0.65);
+          var amp = (Number(document.getElementById("stage-motion").value) / 100) * (down ? 12 : 8) * bass * (0.35 + Math.random() * 0.65);
           c.classList.add("hit");
           c.style.transform = "translateY(" + (-amp).toFixed(1) + "px)";
         });
         setTimeout(function () {
           cols.forEach(function (c) { c.classList.remove("hit"); c.style.transform = ""; });
-        }, 80);
+        }, 260);
       }
       requestAnimationFrame(tick);
     };
@@ -59,7 +60,7 @@
   if (!fine) return;
   var frame = 0;
   window.addEventListener("pointermove", function (e) {
-    if (frame) return;
+    if (frame || hero.dataset.motion === "off") return;
     frame = requestAnimationFrame(function () {
       frame = 0;
       hero.style.setProperty("--px", ((e.clientX / window.innerWidth) * 2 - 1).toFixed(3));
