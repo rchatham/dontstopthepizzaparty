@@ -1,7 +1,10 @@
-/* Homepage hero: the doodles lean away from the mouse (desktop only). */
+/* Homepage hero: ?lights=strobe|fade|chase|pulse|off picks the light show, and
+   the wallpaper and stickers lean away from the mouse (desktop only). */
 (function () {
   var hero = document.querySelector(".dsp-hero");
   if (!hero) return;
+  var pick = (location.search.match(/[?&]lights=(strobe|fade|chase|pulse|off)\b/) || [])[1];
+  if (pick) hero.setAttribute("data-lights", pick);
   var fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!fine || calm) return;

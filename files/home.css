@@ -60,16 +60,110 @@ body {
   from { transform: translate(0, 0); }
   to   { transform: translate(156px, 198px); }   /* exactly one tile: seamless loop */
 }
-/* solid --spot where the words are, the full insane pattern toward the edges */
+/* ---- the light show: three see-through tints taking turns behind the words ---- */
+.dsp-hero { --beat: 0.484s; }            /* 124 bpm; every pattern is timed off this */
+.dsp-spots { position: absolute; inset: 0; }
 .dsp-spot {
+  --sx: 46%;
+  --sy: 44%;
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 46% 44% at 50% 47%,
-    rgba(var(--spot-rgb), var(--spot-a)) 0%,
-    rgba(var(--spot-rgb), var(--spot-a)) 50%,
-    rgba(var(--spot-rgb), calc(var(--spot-a) * 0.6)) 72%,
-    rgba(var(--spot-rgb), 0) 100%);
+  opacity: 0;
+  background: radial-gradient(ellipse var(--sx) var(--sy) at 50% 47%,
+    rgba(var(--c), var(--spot-a)) 0%,
+    rgba(var(--c), var(--spot-a)) 50%,
+    rgba(var(--c), calc(var(--spot-a) * 0.6)) 72%,
+    rgba(var(--c), 0) 100%);
 }
+.t1 { --c: 255, 45, 155; opacity: 1; }   /* hot pink (shown when nothing moves) */
+.t2 { --c: 32, 201, 230; }               /* electric cyan */
+.t3 { --c: 138, 43, 226; }               /* ultraviolet */
+
+/* strobe: a hard cut to the next colour on every beat */
+[data-lights="strobe"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 3) step-end infinite; }
+[data-lights="strobe"] .t2 { animation-delay: calc(var(--beat) * -2); }
+[data-lights="strobe"] .t3 { animation-delay: calc(var(--beat) * -1); }
+
+/* fade: a slow wash from one colour into the next */
+[data-lights="fade"] .dsp-spot { animation: dsp-wash calc(var(--beat) * 24) ease-in-out infinite; }
+[data-lights="fade"] .t2 { animation-delay: calc(var(--beat) * -16); }
+[data-lights="fade"] .t3 { animation-delay: calc(var(--beat) * -8); }
+
+/* chase: all three as smaller spotlights, circling behind the words */
+[data-lights="chase"] .dsp-spot { --sx: 34%; --sy: 30%; opacity: 1; animation: dsp-orbit calc(var(--beat) * 16) linear infinite; }
+[data-lights="chase"] .t2 { animation-delay: calc(var(--beat) * -16 / 3); }
+[data-lights="chase"] .t3 { animation-delay: calc(var(--beat) * -32 / 3); }
+
+/* pulse: each colour holds for a bar and throbs on every beat */
+[data-lights="pulse"] { --spot-a: 0.4; }
+[data-lights="pulse"] .dsp-spot { animation: dsp-cut calc(var(--beat) * 12) step-end infinite; }
+[data-lights="pulse"] .t2 { animation-delay: calc(var(--beat) * -8); }
+[data-lights="pulse"] .t3 { animation-delay: calc(var(--beat) * -4); }
+[data-lights="pulse"] .dsp-spots { animation: dsp-throb var(--beat) ease-out infinite; }
+
+@keyframes dsp-cut   { 0% { opacity: 1; } 33.333% { opacity: 0; } }
+@keyframes dsp-wash  { 0%, 100% { opacity: 1; } 33.333%, 66.667% { opacity: 0; } }
+@keyframes dsp-throb { 0% { opacity: 1; } 55%, 100% { opacity: 0.45; } }
+@keyframes dsp-orbit {
+  0%, 100% { transform: translate(-16%, -8%); }
+  25%      { transform: translate(12%, -12%); }
+  50%      { transform: translate(16%, 8%); }
+  75%      { transform: translate(-10%, 12%); }
+}
+
+/* ---- club lights: sweeping beams, a row of blinking pars, a soft flash ---- */
+.dsp-lights { position: absolute; inset: 0; overflow: hidden; }
+.beam {
+  position: absolute;
+  top: -6%;
+  width: 70vmax;
+  height: 140vmax;
+  margin-left: -35vmax;
+  transform-origin: 50% 0;
+  background:
+    linear-gradient(to right, transparent 46%, rgba(255, 255, 255, 0.55) 50%, transparent 54%),
+    linear-gradient(to bottom, rgba(var(--c), 0.75), rgba(var(--c), 0.25) 55%, rgba(var(--c), 0) 85%);
+  clip-path: polygon(48.5% 0, 51.5% 0, 64% 100%, 36% 100%);
+  filter: blur(1.5px);
+  opacity: 0.6;
+  animation: dsp-sweep calc(var(--beat) * 8) ease-in-out infinite alternate;
+}
+.b1 { left: 8%;  --c: 255, 45, 155; --from: -38deg; --to: 12deg; }
+.b2 { left: 30%; --c: 32, 201, 230; --from: -18deg; --to: 26deg; animation-delay: calc(var(--beat) * -3); }
+.b3 { left: 70%; --c: 176, 107, 255; --from: 18deg; --to: -26deg; animation-delay: calc(var(--beat) * -5); }
+.b4 { left: 92%; --c: 255, 231, 60; --from: 38deg; --to: -12deg; animation-delay: calc(var(--beat) * -2); }
+@keyframes dsp-sweep { from { transform: rotate(var(--from)); } to { transform: rotate(var(--to)); } }
+
+.par {
+  position: absolute;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 25%, rgb(var(--c)) 45%);
+  box-shadow: 0 0 22px 10px rgba(var(--c), 0.85), 0 0 60px 20px rgba(var(--c), 0.45);
+  opacity: 0.2;
+  animation: dsp-blink calc(var(--beat) * 6) step-end infinite;
+}
+.par:nth-of-type(5)  { left: 30%; --c: 255, 45, 155;  animation-delay: 0s; }
+.par:nth-of-type(6)  { left: 38%; --c: 32, 201, 230;  animation-delay: calc(var(--beat) * -5); }
+.par:nth-of-type(7)  { left: 46%; --c: 176, 107, 255; animation-delay: calc(var(--beat) * -4); }
+.par:nth-of-type(8)  { left: 54%; --c: 255, 231, 60;  animation-delay: calc(var(--beat) * -3); }
+.par:nth-of-type(9)  { left: 62%; --c: 255, 45, 155;  animation-delay: calc(var(--beat) * -2); }
+.par:nth-of-type(10) { left: 70%; --c: 32, 201, 230;  animation-delay: calc(var(--beat) * -1); }
+@keyframes dsp-blink { 0% { opacity: 1; } 16.667% { opacity: 0.15; } }
+
+[data-lights="off"] .dsp-lights { display: none; }
+
+/* a soft white flash every other beat (about once a second: well under the
+   three-flashes-a-second limit for photosensitive viewers) */
+.flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
+[data-lights="strobe"] .flash,
+[data-lights="pulse"] .flash { animation: dsp-flash calc(var(--beat) * 2) ease-out infinite; }
+@keyframes dsp-flash { 0% { opacity: 0.14; } 22%, 100% { opacity: 0; } }
+
 .dsp-sticker {
   position: absolute;
   display: block;
@@ -207,5 +301,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill { animation: none; transition: none; }
+  .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill,
+  .dsp-spots, .dsp-spot { animation: none !important; transition: none; }
+  .dsp-spot { opacity: 0 !important; transform: none !important; }
+  .t1 { opacity: 1 !important; --sx: 46%; --sy: 44%; }
+  .dsp-lights { display: none; }
 }
