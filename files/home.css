@@ -232,7 +232,7 @@ body {
     drop-shadow(4px 5px 0 var(--logo-edge));
   animation: dsp-pop 0.9s var(--spring) 0.15s both;
 }
-.dsp-logo span { display: block; white-space: nowrap; }
+.dsp-logo span { display: block; font: inherit; white-space: nowrap; }
 .dsp-logo .dsp-logo__the { font-size: 0.48em; line-height: 1; }
 .dsp-tag {
   display: flex;
