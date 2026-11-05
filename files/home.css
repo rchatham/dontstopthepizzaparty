@@ -52,23 +52,22 @@ body {
   position: absolute;
   inset: -198px -156px;              /* one tile of slack each way, so the crawl never shows an edge */
   background: url(/files/pizza.gif) 0 0 / 156px 198px repeat;
-  translate: calc(var(--px) * -14px) calc(var(--py) * -14px);
+  translate: calc(var(--px) * -8px) calc(var(--py) * -8px);
   transition: translate 0.8s var(--spring);
-  animation: dsp-crawl 36s linear infinite;
+  animation: dsp-crawl 90s linear infinite;
 }
 /* ---- the visualizer: the wallpaper kicks on every beat and its colours spin;
    home.js splits it into tile-wide columns that bounce like EQ bars ---- */
 .dsp-viz {
   position: absolute;
   inset: 0;
-  will-change: transform, filter;
   animation:
     dsp-kick var(--beat) cubic-bezier(0.2, 0.7, 0.3, 1) infinite,
-    dsp-hue calc(var(--beat) * 32) linear infinite;
+    dsp-hue calc(var(--beat) * 128) linear infinite;
 }
-@keyframes dsp-kick { 0% { transform: scale(1.04); } 60%, 100% { transform: scale(1); } }
+@keyframes dsp-kick { 0% { transform: scale(1.012); } 60%, 100% { transform: scale(1); } }
 @keyframes dsp-hue  { from { filter: hue-rotate(0deg) saturate(1.15); } to { filter: hue-rotate(360deg) saturate(1.15); } }
-.dsp-wallpaper.is-viz { display: flex; background: none; }
+.dsp-wallpaper.is-viz { display: flex; }
 .viz-col {
   flex: 0 0 156px;
   height: 100%;
@@ -112,7 +111,7 @@ body {
 [data-lights="fade"] .t3 { animation-delay: calc(var(--beat) * -8); }
 
 /* chase: all three as smaller spotlights, circling behind the words */
-[data-lights="chase"] .dsp-spot { --sx: 34%; --sy: 30%; opacity: 1; animation: dsp-orbit calc(var(--beat) * 16) linear infinite; }
+[data-lights="chase"] .dsp-spot { --sx: 34%; --sy: 30%; opacity: 1; animation: dsp-orbit calc(var(--beat) * 32) linear infinite; }
 [data-lights="chase"] .t2 { animation-delay: calc(var(--beat) * -16 / 3); }
 [data-lights="chase"] .t3 { animation-delay: calc(var(--beat) * -32 / 3); }
 
@@ -132,10 +131,10 @@ body {
 @keyframes dsp-throb      { 0% { opacity: 1; } 55%, 100% { opacity: 0.45; } }
 @keyframes dsp-throb-deep { 0% { opacity: 1; } 50%, 100% { opacity: 0.2; } }
 @keyframes dsp-orbit {
-  0%, 100% { transform: translate(-16%, -8%); }
-  25%      { transform: translate(12%, -12%); }
-  50%      { transform: translate(16%, 8%); }
-  75%      { transform: translate(-10%, 12%); }
+  0%, 100% { transform: translate(-8%, -4%); }
+  25%      { transform: translate(6%, -6%); }
+  50%      { transform: translate(8%, 4%); }
+  75%      { transform: translate(-5%, 6%); }
 }
 
 /* ---- club lights: sweeping beams, a row of blinking pars, a soft flash ---- */
@@ -153,12 +152,12 @@ body {
   clip-path: polygon(48.5% 0, 51.5% 0, 64% 100%, 36% 100%);
   filter: blur(1.5px);
   opacity: 0.6;
-  animation: dsp-sweep calc(var(--beat) * 8) ease-in-out infinite alternate;
+  animation: dsp-sweep calc(var(--beat) * 16) ease-in-out infinite alternate;
 }
-.b1 { left: 8%;  --c: 255, 45, 155; --from: -38deg; --to: 12deg; }
-.b2 { left: 30%; --c: 32, 201, 230; --from: -18deg; --to: 26deg; animation-delay: calc(var(--beat) * -3); }
-.b3 { left: 70%; --c: 176, 107, 255; --from: 18deg; --to: -26deg; animation-delay: calc(var(--beat) * -5); }
-.b4 { left: 92%; --c: 255, 231, 60; --from: 38deg; --to: -12deg; animation-delay: calc(var(--beat) * -2); }
+.b1 { left: 8%;  --c: 255, 45, 155; --from: -24deg; --to: 2deg; }
+.b2 { left: 30%; --c: 32, 201, 230; --from: -12deg; --to: 12deg; animation-delay: calc(var(--beat) * -3); }
+.b3 { left: 70%; --c: 176, 107, 255; --from: 12deg; --to: -12deg; animation-delay: calc(var(--beat) * -5); }
+.b4 { left: 92%; --c: 255, 231, 60; --from: 24deg; --to: -2deg; animation-delay: calc(var(--beat) * -2); }
 @keyframes dsp-sweep { from { transform: rotate(var(--from)); } to { transform: rotate(var(--to)); } }
 
 .par {
@@ -210,12 +209,31 @@ body {
 }
 
 /* ---- logo + tagline ---- */
+/* like the pizzaandtechno.com hero: the logo block follows the pointer, sliding up
+   to 70px / 30px and tilting up to 10 degrees in 3D (home.js sets --px / --py),
+   and wobbles like jello when clicked */
+.dsp-hero { perspective: 800px; }
 .dsp-copy {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transform:
+    translate(calc(var(--px) * 70px), calc(var(--py) * 30px))
+    rotateY(calc(var(--px) * 10deg))
+    rotateX(calc(var(--py) * -10deg));
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.dsp-copy.jello { animation: dsp-jello 0.9s ease both; }
+@keyframes dsp-jello {
+  0%, 100% { scale: 1 1; }
+  30% { scale: 1.18 0.82; }
+  40% { scale: 0.84 1.16; }
+  50% { scale: 1.1 0.9; }
+  65% { scale: 0.96 1.04; }
+  75% { scale: 1.03 0.97; }
 }
 /* the logo is painted through its own shape (a mask), so it can be any colour;
    the invisible img keeps its size and its alt text */
@@ -233,9 +251,9 @@ body {
 }
 .dsp-logo img {
   display: block;
-  width: auto;
-  height: min(48vh, 420px);
-  max-width: 70vw;
+  width: min(92vw, 640px);
+  height: auto;
+  max-height: 40vh;
   object-fit: contain;
   opacity: 0;
 }
@@ -244,8 +262,8 @@ body {
   position: absolute;
   inset: 0;
   background: var(--logo);
-  -webkit-mask: url(/files/dontstop.png) center / contain no-repeat;
-  mask: url(/files/dontstop.png) center / contain no-repeat;
+  -webkit-mask: url(/files/dontstop-wide.png) center / contain no-repeat;
+  mask: url(/files/dontstop-wide.png) center / contain no-repeat;
 }
 .dsp-tag {
   display: flex;
@@ -322,14 +340,15 @@ body {
 .dsp-credits a { color: var(--words); text-decoration: underline; text-underline-offset: 2px; }
 
 @media (min-width: 900px) {
-  .dsp-logo img { height: min(56vh, 520px); }
+  .dsp-logo img { width: min(60vw, 820px); max-height: 46vh; }
   .s1 { top: 40px; left: 48px; }
   .s2 { bottom: 64px; right: 64px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .dsp-wallpaper, .dsp-sticker, .dsp-logo, .dsp-tag span, .dsp-pill,
-  .dsp-spots, .dsp-spot, .dsp-viz { animation: none !important; transition: none; }
+  .dsp-spots, .dsp-spot, .dsp-viz, .dsp-copy { animation: none !important; transition: none; }
+  .dsp-copy { transform: none; }
   .dsp-spot { opacity: 0 !important; transform: none !important; }
   .t1 { opacity: 1 !important; --sx: 46%; --sy: 44%; }
   .dsp-lights { display: none; }
