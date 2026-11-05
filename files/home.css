@@ -228,7 +228,7 @@ body {
   background: none;
   color: var(--logo);
   rotate: -9deg;
-  font: 400 clamp(38px, 11vw, 112px)/0.92 "Mr Dafoe", cursive;
+  font: 400 clamp(38px, 11vw, 112px)/0.78 "Mr Dafoe", cursive;
   text-align: center;
   filter:
     drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
@@ -237,7 +237,7 @@ body {
 
 }
 .dsp-logo span { display: block; font: inherit; white-space: nowrap; }
-.dsp-logo .dsp-logo__the { font-size: 0.48em; line-height: 1; }
+.dsp-logo .dsp-logo__the { font-size: 0.48em; line-height: 0.85; }
 .dsp-tag {
   display: flex;
   flex-direction: column;
