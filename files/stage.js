@@ -174,6 +174,8 @@
   });
   document.addEventListener('click', function (e) { if (!panel.contains(e.target)) panel.open = false; });
   function party(x, y, big) {
+    // Click accents remain playable throughout the drop, independently of visual throttling.
+    if (playing && !big) tone(520, 130, 0.2, 0.15, 'sine');
     var now = performance.now();
     if (!big && now - lastDrop < 350) return;
     lastDrop = now;
@@ -203,7 +205,6 @@
       if (still) bit.classList.add('is-still');
       setTimeout(function (node) { return function () { node.remove(); }; }(bit), 1600);
     }
-    if (playing && !big && dropPhase === 'idle') tone(520, 130, 0.2, 0.15, 'sine');
   }
   hero.addEventListener('click', function (e) {
     if (e.target.closest('a, input, label, button, details')) return;

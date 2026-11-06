@@ -17,3 +17,5 @@
 2026-11-05: Added case-insensitive pizza and emergency aliases alongside techno and pizza emergency. Updated browser routing cases and navigation-script cache version. Direct Node VM checks passed for six aliases/case variants and three nonmatching inputs; JS syntax/diff checks passed. Full browser suite not run. Not published.
 
 2026-11-05: Drop the pizza now queues a bar-aligned eight-beat rising percussion build, one-beat break, then eight beats of deeper bass and longer kicks with a 48-particle burst. Respects mixer/mute and reduced motion; prevents overlapping drops; cancels on page hide. Added three passing Node sequence/mute/visibility tests and updated browser expectation. Syntax/diff checks passed. Preview refreshed on 3048. Browser/audio audition unavailable; not published.
+
+2026-11-05: Kept mouse click accents active during buildup, break and bass drop, independently of visual throttling. Explicit mute still suppresses accents. Four sequence tests pass; syntax/diff checks pass. Preview refreshed; not published.

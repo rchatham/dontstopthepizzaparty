@@ -45,3 +45,19 @@ test('mute cancels an active drop and future button presses remain silent',async
 test('hiding the page cancels the sequence',async()=>{
  const s=setup();s.click();await new Promise(setImmediate);s.document.hidden=true;s.document.visibilitychange();assert.equal(s.hero.dataset.drop,'idle');assert.equal(s.node('.dsp-party-button').disabled,false);
 });
+
+test('mouse accents remain playable during buildup, break and drop, but respect mute',async()=>{
+  const s=setup();s.click();await new Promise(setImmediate);
+  function accent(expected=true) {
+    const before=s.tones.length;
+    s.hero.handlers.click({target:{closest(){return false;}},clientX:100,clientY:100});
+    assert.equal(s.tones.length,before+(expected?1:0));
+    if(expected) assert.equal(s.tones.at(-1).frequency,520);
+  }
+  accent();accent(); // Sound is not throttled along with the visual burst.
+  for(let i=0;i<15;i++)s.tick();
+  assert.equal(s.hero.dataset.drop,'break');accent();
+  s.tick();s.tick();s.tick();
+  assert.equal(s.hero.dataset.drop,'drop');accent();accent();
+  s.node('stage-sound').handlers.click();accent(false);
+});
