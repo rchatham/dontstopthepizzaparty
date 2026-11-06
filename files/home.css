@@ -376,3 +376,10 @@ body {
 .dsp-lights, .dsp-spots { filter: hue-rotate(var(--light-hue, 0deg)) opacity(var(--light-intensity, 0.7)); transition: filter 1s; }
 [data-motion="off"] .dsp-copy.has-entered { animation: none !important; transform: none; }
 .dsp-controls__panel { scrollbar-width: thin; }
+
+/* Hero lettering stays interactive without creating text/image selections. */
+.dsp-copy, .dsp-copy * {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.dsp-logo img { -webkit-user-drag: none; }
