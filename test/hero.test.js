@@ -113,10 +113,11 @@ const DESKTOP = { width: 1440, height: 900 };
       await done(page);
     });
 
-    await check("Drop the pizza button throws confetti from the title", async () => {
+    await check("Drop the pizza button builds to a musical and visual drop", async () => {
       const page = await open(viewport);
       await page.click(".dsp-party-button");
-      expect(await page.locator(".dsp-confetti").count() === 18, "no confetti");
+      await page.waitForFunction(() => document.querySelector('.dsp-hero').dataset.drop === 'drop', null, {timeout: 12000});
+      await page.waitForFunction(() => document.querySelectorAll('.dsp-confetti').length === 48, null, {timeout: 1000});
       await done(page);
     });
 

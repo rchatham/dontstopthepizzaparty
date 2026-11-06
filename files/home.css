@@ -383,3 +383,6 @@ body {
   user-select: none;
 }
 .dsp-logo img { -webkit-user-drag: none; }
+
+.dsp-party-button:disabled { cursor: progress; background: var(--yellow); }
+[data-drop="drop"] .dsp-party-button { background: #20c9e6; }
