@@ -224,13 +224,15 @@ const DESKTOP = { width: 1440, height: 900 };
     await done(page);
   });
 
-  await check("secret word: typing techno goes to the pizza emergency", async () => {
-    const page = await open(PHONE);
-    await page.fill(".dsp-pill input", "");
-    await page.type(".dsp-pill input", "techno");
-    await page.waitForURL(/\/emergency\/$/, { timeout: 3000 });
-    await done(page);
-  });
+  for (const word of ['techno', 'pizza', 'emergency', 'PIZZA', 'Emergency']) {
+    await check('secret word: ' + word + ' opens the pizza emergency', async () => {
+      const page = await open(PHONE);
+      await page.fill('.dsp-pill input', '');
+      await page.type('.dsp-pill input', word);
+      await page.waitForURL(/\/emergency\/$/, { timeout: 3000 });
+      await done(page);
+    });
+  }
 
   await browser.close();
   server.close();

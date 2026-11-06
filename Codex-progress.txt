@@ -14,3 +14,4 @@
 2026-11-05: Generated title draft integrated from original script and Pizza + Techno references. Follow-up tightened subtitle margin from 28px to -8px and balanced subtitle line offsets at +/-0.3em to center the composition. Preview updated. Browser unavailable, so final visual check pending; syntax/diff checks pass. Not published.
 
 2026-11-05: Disabled selection on hero title/subtitle with standard and Safari-prefixed user-select. Disabled native title-image dragging, preserving click handlers and pointer events. Diff checks pass; browser verification unavailable. Not deployed.
+2026-11-05: Added case-insensitive pizza and emergency aliases alongside techno and pizza emergency. Updated browser routing cases and navigation-script cache version. Direct Node VM checks passed for six aliases/case variants and three nonmatching inputs; JS syntax/diff checks passed. Full browser suite not run. Not published.
