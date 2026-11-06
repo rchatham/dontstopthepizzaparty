@@ -11,7 +11,7 @@ function navigateForInput(value) {
   if (value.toLowerCase() === "nostalgia") {
     window.location = "/vault/";
   }
-  if (value.toLowerCase() === "techno" || value.toLowerCase() === "pizza emergency") {
+  if (["techno", "pizza", "emergency", "pizza emergency"].indexOf(value.toLowerCase()) !== -1) {
     window.location = "/emergency/";
   }
   if (value.toLowerCase() === "photos") {
