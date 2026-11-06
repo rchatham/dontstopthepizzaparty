@@ -221,38 +221,30 @@ body {
   flex-direction: column;
   align-items: center;
 }
-/* Keep each phrase on one line at every viewport width. */
+/* Center the artwork and tuck the tagline beneath its lower edge. */
 .dsp-logo {
   position: relative;
   margin: 0;
-  padding: 0 0.12em;
+  padding: 0;
   background: none;
-  color: var(--logo);
-  rotate: -9deg;
-  font: 400 clamp(38px, 11vw, 112px)/0.78 "Mr Dafoe", cursive;
-  text-align: center;
-  filter:
-    drop-shadow(2px 0 0 var(--outline)) drop-shadow(-2px 0 0 var(--outline))
-    drop-shadow(0 2px 0 var(--outline)) drop-shadow(0 -2px 0 var(--outline))
-    drop-shadow(4px 5px 0 var(--logo-edge));
-
+  line-height: 0;
+  width: min(740px, 82vw, 95svh);
 }
-.dsp-logo span { display: block; font: inherit; white-space: nowrap; }
-.dsp-logo .dsp-logo__the { font-size: 0.48em; line-height: 0.85; }
+.dsp-logo img { display: block; width: 100%; height: auto; }
 .dsp-tag {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 28px 0 0;
+  margin: -8px 0 0;
   rotate: -9deg;
   font: italic 800 clamp(30px, 6.2vmin, 58px)/0.95 "Bitter", Georgia, serif;
   letter-spacing: -0.01em;
   text-transform: lowercase;
 }
 .dsp-tag span { display: block; font: inherit; -webkit-text-stroke: 5px var(--outline); paint-order: stroke fill; }
-.dsp-tag span:nth-child(1) { translate: -0.6em 0; }
+.dsp-tag span:nth-child(1) { translate: -0.3em 0; }
 .dsp-tag span:nth-child(2) { font-size: 1.25em; color: var(--hi); -webkit-text-stroke: 1.5px var(--hi-edge); paint-order: stroke fill; text-shadow: 3px 3px 0 var(--hi-edge); }
-.dsp-tag span:nth-child(3) { translate: 0.7em 0; }
+.dsp-tag span:nth-child(3) { translate: 0.3em 0; }
 
 @keyframes dsp-pop {
   from { transform: scale(0) rotate(-8deg); opacity: 0; }

@@ -79,12 +79,11 @@ const DESKTOP = { width: 1440, height: 900 };
   for (const [label, viewport] of [["phone 390", PHONE], ["desktop 1440", DESKTOP]]) {
     console.log(label);
 
-    await check("layout: title on three lines, everything on screen, nothing on top of the title", async () => {
+    await check("layout: title artwork loaded, everything on screen, nothing on top of the title", async () => {
       const page = await open(viewport, { touch: viewport === PHONE });
-      const lines = await page.$$eval(".dsp-logo span", (spans) => spans.map((s) => ({
-        text: s.textContent, h: s.offsetHeight, /* untransformed: the title is rotated */ fs: parseFloat(getComputedStyle(s).fontSize) })));
-      expect(lines.map((l) => l.text).join(" / ") === "Don’t Stop / ~ the ~ / Pizza Party", "title reads " + lines.map((l) => l.text).join(" / "));
-      lines.forEach((l) => expect(l.h < l.fs * 1.3, "\"" + l.text + "\" wraps (" + Math.round(l.h) + "px tall at " + l.fs + "px)"));
+      const logo = await page.$eval('.dsp-logo img', (img) => ({ alt: img.alt, loaded: img.complete && img.naturalWidth > 0 }));
+      expect(logo.alt === 'Don’t Stop ~ the ~ Pizza Party', 'title accessible text changed');
+      expect(logo.loaded, 'generated title image did not load');
       for (const sel of [".dsp-logo", ".dsp-tag", ".dsp-pill", ".dsp-credits", ".dsp-party-button", ".dsp-controls summary"]) {
         const b = await box(page, sel);
         expect(b && b.x >= 0 && b.y >= 0 && b.x + b.width <= viewport.width && b.y + b.height <= viewport.height,
